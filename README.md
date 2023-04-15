@@ -132,12 +132,6 @@ multiply <Number> by <Number>
 <br />
 
 ## 7. Logical Operators (All the results are <Bool>)
-Protip: You can use commands within commands like
-```
-command1 @(command2)
-```
-<br />
-
 ```
 is <Any> equal with <Any>
 is <Any> not equal with <Any> 
@@ -154,6 +148,12 @@ is <Number> more than or equal with <Number>
 <Bool> or <Bool>
 ```
 <br />
+<br />
+
+Protip: You can use commands within commands like
+```
+command1 @(command2)
+```
 <br />
 
 ## 8. If Else
