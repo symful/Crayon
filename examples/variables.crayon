@@ -1,0 +1,5 @@
+[MAIN]
+define variable $hi;
+assign value "Hello World!" to variable $hi;
+write $hi to console;
+delete variable $hi;

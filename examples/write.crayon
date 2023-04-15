@@ -1,0 +1,11 @@
+[MAIN]
+write "Hello World!" to console
+
+[FRAME 1]
+write "Hi! I wrote this after ~1s!" to console
+
+[FRAME .5]
+write "Hi! I wrote this after ~.5s!" to console
+
+[FRAME 2]
+write "Hi! I wrote this after ~2s!" to console

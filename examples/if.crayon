@@ -1,0 +1,10 @@
+[MAIN]
+if #yes do {
+    write "A" to console
+}
+
+if #no do {
+    write "C" to console
+} else do {
+    write "B" to console
+}

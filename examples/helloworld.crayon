@@ -1,0 +1,2 @@
+[MAIN]
+write "Hello World!" to console;
