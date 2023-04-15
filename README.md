@@ -131,7 +131,7 @@ multiply <Number> by <Number>
 <br />
 <br />
 
-## 7. Logical Operators (All the results are <Bool>)
+## 7. Logical Operators (All the results are `<Bool>`)
 ```
 is <Any> equal with <Any>
 is <Any> not equal with <Any> 
