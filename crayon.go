@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-	"sync"
 
 	engine "github.com/NekoMaru76/Crayon/engine"
 	parser "github.com/NekoMaru76/Crayon/parser/grammars"
@@ -16,8 +15,8 @@ func main() {
 	p := parser.NewCrayonParser(stream)
 	p.AddErrorListener(antlr.NewDiagnosticErrorListener(true))
 	p.BuildParseTrees = true
-	var wg sync.WaitGroup
-	eng := engine.NewEngine(&wg)
+	ch := make(chan interface{})
+	eng := engine.NewEngine(ch)
 
 	eng.AddCommand(engine.WriteCommand)
 	eng.AddCommand(engine.ByeCommand)
@@ -44,7 +43,11 @@ func main() {
 	script := p.Script().(*parser.ScriptContext)
 	v := engine.NewCrayonVisitor(eng, engine.NewScope(nil))
 	tags := v.VisitScript(script)
-	v.RunAllTags(tags)
 
-	wg.Wait()
+	defer func() {
+		for range ch {
+
+		}
+	}()
+	v.RunAllTags(tags)
 }

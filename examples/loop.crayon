@@ -1,0 +1,8 @@
+[LOOP]
+write "A" to console;
+
+[LOOP]
+write "B" to console;
+
+[MAIN]
+write "Ready!" to console;

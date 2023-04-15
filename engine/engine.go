@@ -3,7 +3,6 @@ package engine
 import (
 	"fmt"
 	"strings"
-	"sync"
 	"time"
 
 	parser "github.com/NekoMaru76/Crayon/parser/grammars"
@@ -91,17 +90,33 @@ var ScopePath ValuePath = NewValuePath("Scope", func(a any) bool {
 type Engine struct {
 	Commands []Command
 	Start    int64
-	Wg       *sync.WaitGroup
+	Chan     chan interface{}
+	CountTag int64
+	MaxTag   int64
 }
 
 type Command struct {
 	Routes []Route
 }
 
-func NewEngine(wg *sync.WaitGroup) *Engine {
+func NewEngine(Chan chan interface{}) *Engine {
 	return &Engine{
-		Start: time.Now().UnixMilli(),
-		Wg:    wg,
+		Start:    time.Now().UnixMilli(),
+		Chan:     Chan,
+		CountTag: 0,
+		MaxTag:   0,
+	}
+}
+
+func (e *Engine) StartTag() {
+	e.MaxTag++
+}
+
+func (e *Engine) EndTag() {
+	e.CountTag++
+
+	if e.CountTag >= e.MaxTag {
+		close(e.Chan)
 	}
 }
 

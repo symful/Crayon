@@ -2,6 +2,7 @@ package engine
 
 import (
 	"fmt"
+	"os"
 	"time"
 )
 
@@ -237,7 +238,9 @@ var WriteCommand = Command{
 var ByeCommandRoute = Route{
 	Paths: []Path{NewKeywordPath("k"), NewKeywordPath("thx"), NewKeywordPath("bye")},
 	Run: func(a []any, v *CrayonVisitor) any {
-		panic("K THX BYE")
+		os.Exit(0)
+
+		return nil
 	},
 }
 var ByeCommand = Command{

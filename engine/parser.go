@@ -79,10 +79,12 @@ func NewMainTag(exprCtx []*parser.ExpContext) MainTag {
 }
 
 func (tag MainTag) Run(v *CrayonVisitor) []any {
+	v.StartTag()
 	var res []any
 	for _, ctx := range tag.GetExpContexts() {
 		res = append(res, v.VisitExp(ctx))
 	}
+	v.EndTag()
 	return res
 }
 
@@ -101,15 +103,16 @@ type FrameTag struct {
 }
 
 func (tag FrameTag) Run(v *CrayonVisitor) []any {
+	v.StartTag()
+
 	now := time.Now().UnixMilli()
-	v.Wg.Add(1)
 
 	go func() {
 		time.Sleep(time.Duration(int64((float64(now-v.Engine.Start) + tag.Time) * float64(time.Second))))
 		for _, ctx := range tag.GetExpContexts() {
 			v.VisitExp(ctx)
 		}
-		v.Wg.Done()
+		v.EndTag()
 	}()
 
 	return nil
@@ -136,16 +139,16 @@ type LoopTag struct {
 }
 
 func (tag LoopTag) Run(v *CrayonVisitor) []any {
+	v.StartTag()
+
 	go func() {
 		for {
-			v.Wg.Add(1)
-
 			for _, ctx := range tag.GetExpContexts() {
 				v.VisitExp(ctx)
 			}
-
-			v.Wg.Done()
 		}
+
+		//v.EndTag()
 	}()
 
 	return nil
@@ -312,11 +315,15 @@ func (v *CrayonVisitor) RunTag(tag Tag) any {
 }
 
 func (v *CrayonVisitor) RunAllTags(tags []Tag) []any {
+	v.StartTag()
+
 	vals := []any{}
 
 	for _, tag := range tags {
 		vals = append(vals, v.RunTag(tag))
 	}
+
+	go v.EndTag()
 
 	return vals
 }
