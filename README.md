@@ -4,6 +4,12 @@ An interpreted programming language written in Go for idiots.
 # What the Fuck?
 There are only tags, values, constant values, commands (statements), variables and scope. Well, for now.
 
+# How to Use
+```sh
+./cor.sh <File>
+```
+This bash script will build the engine and run it.
+
 # What the Fuck is a Tag?
 It works like a function, but you can't directly call it, only system can, at least for now.
 
