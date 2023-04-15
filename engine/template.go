@@ -1,6 +1,21 @@
 package engine
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
+
+var DelayCommandRoute = Route{
+	Paths: []Path{NewKeywordPath("wait"), NewKeywordPath("for"), NumberValuePath, NewKeywordPath("seconds")},
+	Run: func(a []any, cv *CrayonVisitor) any {
+		time.Sleep(time.Duration(a[0].(float64) * float64(time.Second)))
+
+		return a[0]
+	},
+}
+var DelayCommand = Command{
+	Routes: []Route{DelayCommandRoute},
+}
 
 var IfCommandRoute = Route{
 	Paths: []Path{NewKeywordPath("if"), BoolValuePath, NewKeywordPath("do"), ScopePath},
