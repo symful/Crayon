@@ -8,42 +8,44 @@ There are only tags, values, constant values, commands (statements), variables a
 It works like a function, but you can't directly call it, only system can, at least for now.
 
 ## Kinds of Tag
-1. MAIN
+### 1. MAIN
 ```
 [MAIN]
 ```
 It will execute when the engine ready.
 <br />
 <br />
-2. FRAME
+
+### 2. FRAME
 ```
 [FRAME XX]
 ```
 It will execute after XX seconds.
 <br />
 <br />
-3. LOOP
+
+### 3. LOOP
 ```
 [LOOP]
 ```
 It will execute every time until you exit the program.
 
-# Values
-1. String
+# Kinds of Value
+## 1. String
 ```
 "This is a string"
 ```
 <br />
 <br />
 
-2. Number (Float 64)
+## 2. Number (Float 64)
 ```
 10.10
 ```
 <br />
 <br />
 
-3. Bool
+## 3. Bool
 ```
 #yes
 #no
@@ -51,14 +53,14 @@ It will execute every time until you exit the program.
 <br />
 <br />
 
-4. PI
+## 4. PI
 ```
 #PI
 ```
 <br />
 <br />
 
-5. Object (Untested)
+## 5. Object (Untested)
 ```
 {
     key1 = <Any>,
@@ -68,51 +70,58 @@ It will execute every time until you exit the program.
 <br />
 <br />
 
-6. Array (Untested)
+## 6. Array (Untested)
 ```
 [<Any>, <Any>]
 ```
 <br />
 <br />
 
+## 7. None (Untested)
+```
+#none
+```
+<br />
+<br />
+
 
 # Commands
-1. Exit the program
+## 1. Exit the program
 ```
 K THX BYE
 ```
 <br />
 <br />
 
-2. Console
+## 2. Console
 ```
 write <Any> to console
 ```
 <br />
 <br />
 
-3. Define
+## 3. Define
 ```
 define variable $[variable]
 ```
 <br />
 <br />
 
-4. Assign
+## 4. Assign
 ```
 assign value <Any> to $[variable]
 ```
 <br />
 <br />
 
-5. Delete 
+## 5. Delete 
 ```
 delete variable $[variable]
 ```
 <br />
 <br />
 
-6. Math Operators
+## 6. Math Operators
 ```
 add <Number> by <Number>
 sub <Number> by <Number>
@@ -122,7 +131,7 @@ multiply <Number> by <Number>
 <br />
 <br />
 
-7. Logical Operators (All the results are <Bool>)
+## 7. Logical Operators (All the results are <Bool>)
 Protip: You can use commands within commands like
 ```
 command1 @(command2)
@@ -146,7 +155,7 @@ is <Number> more than or equal with <Number>
 <br />
 <br />
 
-8. If Else
+## 8. If Else
 ```
 if <Bool> {
     this is scope
