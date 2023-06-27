@@ -289,3 +289,19 @@ var GetPropObjectCommandRoute = Route{
 var GetPropCommand = Command{
 	Routes: []Route{GetPropArrayCommandRoute, GetPropObjectCommandRoute},
 }
+
+var SetPropArrayCommandRoute = Route{
+	Paths: []Path{NewKeywordPath("set"), AnyValuePath, NewKeywordPath("as"), NewKeywordPath("property"), NumberValuePath, NewKeywordPath("from"), ArrayValuePath},
+	Run: func(a []any, v *CrayonVisitor) any {
+		return a[1].([]any)[int64(a[0].(float64))]
+	},
+}
+var SetPropObjectCommandRoute = Route{
+	Paths: []Path{NewKeywordPath("set"), AnyValuePath, NewKeywordPath("as"), NewKeywordPath("property"), StringValuePath, NewKeywordPath("from"), ObjectValuePath},
+	Run: func(a []any, v *CrayonVisitor) any {
+		return a[1].(map[string]any)[a[0].(string)]
+	},
+}
+var SetPropCommand = Command{
+	Routes: []Route{SetPropArrayCommandRoute, SetPropObjectCommandRoute},
+}

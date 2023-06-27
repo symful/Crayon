@@ -42,6 +42,8 @@ It will execute every time until you exit the program.
 ```
 Your own named tags! This type of tag can be called by your code.
 
+<br />
+<br />
 ProTip: If you want to end a tag, just use
 ```
 ~ <Value?>
@@ -179,6 +181,7 @@ Protip: You can use commands within commands like
 command1 @(command2);
 ```
 <br />
+<br />
 
 ## 9. If Else
 ```
@@ -192,11 +195,29 @@ if <Bool> {
     this is scope
 }
 ```
+<br />
+<br />
 
 ## 10. Get & Call Custom Tag
 ```
 call tag @[CustomTagName] with args <Array>;
 ```
 To get the arguments in the custom tag, the custom tag just need to get the variable `$args`.
+<br />
+<br />
+
+## 11. Get Property
+```
+get property <Number> from <Array>;
+get property <String> from <Object>;
+```
+<br />
+<br />
+
+## 12. Set Property
+```
+set <Any> as property <Number> from <Array>;
+set <Any> as property <String> from <Object>;
+```
 <br />
 <br />

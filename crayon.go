@@ -41,6 +41,7 @@ func main() {
 		engine.MultiplyCommand,
 		engine.CallCustomTagCommand,
 		engine.GetPropCommand,
+		engine.SetPropCommand,
 	)
 
 	script := p.Script().(*parser.ScriptContext)
