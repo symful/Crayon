@@ -103,6 +103,18 @@ ProTip: If you want to end a tag, just use
 <br />
 <br />
 
+## 8. Scope (Untested)
+```
+{
+    Command1
+    Command2
+}
+```
+
+Yeah scope is a value.
+<br />
+<br />
+
 
 # Commands
 ## 1. Exit the program
@@ -225,6 +237,14 @@ set <Any> as property <String> from <Object>;
 ## 13. Get Type Of (Untested)
 ```
 get type of <Any>;
+```
+
+## 14. Run Scope (Untested)
+```
+run scope {
+    Command1
+    Command2
+};
 ```
 <br />
 <br />

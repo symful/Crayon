@@ -43,6 +43,7 @@ func main() {
 		engine.GetPropCommand,
 		engine.SetPropCommand,
 		engine.GetTypeofCommand,
+		engine.RunScopeCommand,
 	)
 
 	script := p.Script().(*parser.ScriptContext)

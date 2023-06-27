@@ -324,6 +324,8 @@ var GetTypeofCommandRoute = Route{
 			return "object"
 		case nil:
 			return "none"
+		case ScopeAsValue:
+			return "scope"
 		}
 
 		return "unknown"
@@ -331,4 +333,14 @@ var GetTypeofCommandRoute = Route{
 }
 var GetTypeofCommand = Command{
 	Routes: []Route{GetTypeofCommandRoute},
+}
+
+var RunScopeCommandRoute = Route{
+	Paths: []Path{NewKeywordPath("run"), NewKeywordPath("scope"), ScopePath},
+	Run: func(a []any, v *CrayonVisitor) any {
+		return a[0].(ScopeAsValue)()
+	},
+}
+var RunScopeCommand = Command{
+	Routes: []Route{RunScopeCommandRoute},
 }
