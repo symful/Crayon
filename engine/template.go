@@ -322,6 +322,8 @@ var GetTypeofCommandRoute = Route{
 			return "number"
 		case map[string]any:
 			return "object"
+		case nil:
+			return "none"
 		}
 
 		return "unknown"
