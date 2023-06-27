@@ -1,25 +1,31 @@
 package engine
 
 import (
+	"fmt"
 	"math"
 	"strconv"
 	"strings"
-	"time"
 
 	parser "github.com/NekoMaru76/Crayon/parser/grammars"
-	"github.com/antlr/antlr4/runtime/Go/antlr/v4"
 )
 
 type CrayonVisitor struct {
 	*parser.BaseCrayonVisitor
 	*Scope
 	*Engine
+	CustomTags map[string]*CustomTag
 }
 
-func NewCrayonVisitor(engine *Engine, scope *Scope) *CrayonVisitor {
+type Expression struct {
+	IsContinue bool
+	Value      any
+}
+
+func NewCrayonVisitor(engine *Engine, scope *Scope, customTags map[string]*CustomTag) *CrayonVisitor {
 	return &CrayonVisitor{
-		Scope:  scope,
-		Engine: engine,
+		Scope:      scope,
+		Engine:     engine,
+		CustomTags: customTags,
 	}
 }
 
@@ -44,7 +50,7 @@ func (v *CrayonVisitor) VisitVariable(ctx *parser.VariableContext) Variable {
 
 func (v *CrayonVisitor) VisitObject(ctx *parser.ObjectContext) any {
 	obj := map[string]any{}
-	for _, pairI := range ctx.Pairs {
+	for _, pairI := range ctx.AllPair() {
 		pair := pairI.(*parser.PairContext)
 		key := pair.IDENTIFIER().GetText()
 		value := v.VisitValue(pair.Value().(*parser.ValueContext))
@@ -55,153 +61,93 @@ func (v *CrayonVisitor) VisitObject(ctx *parser.ObjectContext) any {
 
 func (v *CrayonVisitor) VisitArray(ctx *parser.ArrayContext) any {
 	arr := []any{}
-	for _, value := range ctx.Values {
+	for _, value := range ctx.AllValue() {
 		arr = append(arr, v.VisitValue(value.(*parser.ValueContext)))
 	}
 	return arr
 }
 
-type Tag interface {
-	Type() string
-	GetExpContexts() []*parser.ExpContext
-	Run(*CrayonVisitor) []any
-}
-
-type MainTag struct {
-	Tag
-	exprCtx []*parser.ExpContext
-}
-
-func NewMainTag(exprCtx []*parser.ExpContext) MainTag {
-	return MainTag{
-		exprCtx: exprCtx,
-	}
-}
-
-func (tag MainTag) Run(v *CrayonVisitor) []any {
-	v.StartTag()
-	var res []any
-	for _, ctx := range tag.GetExpContexts() {
-		res = append(res, v.VisitExp(ctx))
-	}
-	v.EndTag()
-	return res
-}
-
-func (MainTag) Type() string {
-	return "Main"
-}
-
-func (t MainTag) GetExpContexts() []*parser.ExpContext {
-	return t.exprCtx
-}
-
-type FrameTag struct {
-	Tag
-	Time    float64
-	exprCtx []*parser.ExpContext
-}
-
-func (tag FrameTag) Run(v *CrayonVisitor) []any {
-	v.StartTag()
-
-	now := time.Now().UnixMilli()
-
-	go func() {
-		time.Sleep(time.Duration(int64((float64(now-v.Engine.Start) + tag.Time) * float64(time.Second))))
-		for _, ctx := range tag.GetExpContexts() {
-			v.VisitExp(ctx)
-		}
-		v.EndTag()
-	}()
-
-	return nil
-}
-
-func NewFrameTag(time float64, exprCtx []*parser.ExpContext) FrameTag {
-	return FrameTag{
-		Time:    time,
-		exprCtx: exprCtx,
-	}
-}
-
-func (FrameTag) Type() string {
-	return "Frame"
-}
-
-func (t FrameTag) GetExpContexts() []*parser.ExpContext {
-	return t.exprCtx
-}
-
-type LoopTag struct {
-	Tag
-	exprCtx []*parser.ExpContext
-}
-
-func (tag LoopTag) Run(v *CrayonVisitor) []any {
-	v.StartTag()
-
-	go func() {
-		for {
-			for _, ctx := range tag.GetExpContexts() {
-				v.VisitExp(ctx)
-			}
-		}
-
-		//v.EndTag()
-	}()
-
-	return nil
-}
-
-func NewLoopTag(exprCtx []*parser.ExpContext) LoopTag {
-	return LoopTag{
-		exprCtx: exprCtx,
-	}
-}
-
-func (LoopTag) Type() string {
-	return "Loop"
-}
-
-func (t LoopTag) GetExpContexts() []*parser.ExpContext {
-	return t.exprCtx
-}
-
 func (v *CrayonVisitor) VisitTag(ctx *parser.TagContext) Tag {
-	expNodes := ctx.AllExp()
-	exps := make([]*parser.ExpContext, len(expNodes))
-	for i, node := range expNodes {
-		exps[i] = node.(*parser.ExpContext)
+	expNode := ctx.Exp().(*parser.ExpContext)
+	node := ctx.GetChild(1)
+
+	switch node := node.(type) {
+	case *parser.CustomTagContext:
+		return v.VisitCustomTag(node, expNode)
+	case *parser.MainTagContext:
+		return v.VisitMainTag(node, expNode)
+	case *parser.FrameTagContext:
+		return v.VisitFrameTag(node, expNode)
+	case *parser.LoopTagContext:
+		return v.VisitLoopTag(node, expNode)
 	}
 
-	tagContent := strings.ToUpper(ctx.GetChild(1).(antlr.TerminalNode).GetText())
+	panic(fmt.Errorf("Invalid tag name %s", ctx.GetText()))
+}
 
-	if tagContent == "MAIN" {
-		return NewMainTag(exps)
-	} else if tagContent == "FRAME" {
-		time, _ := strconv.ParseFloat(ctx.NUMBER().GetText(), 64)
-		return NewFrameTag(time, exps)
-	} else if tagContent == "LOOP" {
-		return NewLoopTag(exps)
-	} else {
-		panic("Unknown tag type")
+func (v *CrayonVisitor) VisitMainTag(ctx *parser.MainTagContext, expr *parser.ExpContext) Tag {
+	return NewMainTag(expr)
+}
+
+func (v *CrayonVisitor) VisitLoopTag(ctx *parser.LoopTagContext, expr *parser.ExpContext) Tag {
+	return NewLoopTag(expr)
+}
+
+func (v *CrayonVisitor) VisitFrameTag(ctx *parser.FrameTagContext, expr *parser.ExpContext) Tag {
+	f, _ := strconv.ParseFloat(ctx.NUMBER().GetText(), 64)
+	return NewFrameTag(expr, f)
+}
+
+func (v *CrayonVisitor) VisitCustomTag(ctx *parser.CustomTagContext, expr *parser.ExpContext) Tag {
+	name := ctx.IDENTIFIER().GetText()
+	_, ok := v.CustomTags[name]
+
+	if ok {
+		panic(fmt.Errorf("Custom tag with name %s is already exist", name))
 	}
+
+	tag := NewCustomTag(expr, name)
+	v.CustomTags[name] = tag
+
+	return tag
 }
 
 func (v *CrayonVisitor) VisitCommand(ctx *parser.CommandContext) any {
 	return v.Engine.ParseCommand(v, ctx)
 }
 
-func (v *CrayonVisitor) VisitScope(ctx *parser.ScopeContext) any {
-	scope := NewScope(v.Scope)
-	newVisitor := NewCrayonVisitor(v.Engine, scope)
-
-	for _, exp := range ctx.AllExp() {
-		newVisitor.VisitExp(exp.(*parser.ExpContext))
+func (v *CrayonVisitor) VisitEnd(ctx *parser.EndContext) any {
+	if ctx.Value() != nil {
+		return v.VisitValue(ctx.Value().(*parser.ValueContext))
 	}
 
-	return scope
+	return nil
+}
+
+func (v *CrayonVisitor) VisitScope(ctx *parser.ScopeContext) any {
+	scope := NewScope(v.Scope)
+	newVisitor := NewCrayonVisitor(v.Engine, scope, v.CustomTags)
+	nodes := ctx.GetChildren()
+	len := len(nodes)
+
+	for i, node := range nodes {
+		if i == 0 || i-1 >= len {
+			break
+		}
+
+		switch node := node.(type) {
+		case *parser.ExpContext:
+			exp := newVisitor.VisitExp(node)
+			if !exp.IsContinue {
+				return exp.Value
+			}
+		case *parser.EndContext:
+			return newVisitor.VisitEnd(node)
+		}
+
+	}
+
+	return nil
 }
 
 func (v *CrayonVisitor) VisitPath(ctx *parser.PathContext) any {
@@ -230,24 +176,34 @@ func (v *CrayonVisitor) VisitValuePath(ctx *parser.ValuePathContext) any {
 	return value
 }
 
-func (v *CrayonVisitor) VisitExp(ctx *parser.ExpContext) any {
-	var val any
+func (v *CrayonVisitor) VisitExp(ctx *parser.ExpContext) Expression {
+	if ctx.Command(0) != nil || ctx.End(0) != nil {
+		for _, node := range ctx.GetChildren() {
+			switch node := node.(type) {
+			case *parser.CommandContext:
+				v.VisitCommand(node)
+			case *parser.EndContext:
+				return Expression{
+					Value:      v.VisitEnd(node),
+					IsContinue: false,
+				}
+			}
 
-	if ctx.Command(0) != nil {
-		vals := []any{}
-
-		for _, cmd := range ctx.AllCommand() {
-			vals = append(vals, v.VisitCommand(cmd.(*parser.CommandContext)))
 		}
 
-		val = vals
+		return Expression{
+			Value:      nil,
+			IsContinue: true,
+		}
 	} else if ctx.Scope() != nil {
-		val = v.VisitScope(ctx.Scope().(*parser.ScopeContext))
-	} else {
-		panic("Unknown expression type")
+		return Expression{
+			Value:      v.VisitScope(ctx.Scope().(*parser.ScopeContext)),
+			IsContinue: true,
+		}
 	}
 
-	return val
+	panic("Unknown expression type")
+
 }
 
 func (v *CrayonVisitor) VisitNone(ctx *parser.NoneContext) any {
@@ -295,9 +251,22 @@ func (v *CrayonVisitor) VisitValue(ctx *parser.ValueContext) any {
 		return v.VisitBool(ctx.Bool_().(*parser.BoolContext))
 	} else if ctx.PI() != nil {
 		return v.VisitPI(ctx.PI().(*parser.PIContext))
+	} else if ctx.ValueTag() != nil {
+		return v.VisitValueTag(ctx.ValueTag().(*parser.ValueTagContext))
 	} else {
 		panic("Unknown value type")
 	}
+}
+
+func (v *CrayonVisitor) VisitValueTag(ctx *parser.ValueTagContext) any {
+	name := ctx.IDENTIFIER().GetText()
+	tag, ok := v.CustomTags[name]
+
+	if !ok {
+		panic(fmt.Errorf("Invalid custom tag name %s", name))
+	}
+
+	return tag
 }
 
 func (v *CrayonVisitor) VisitScript(ctx *parser.ScriptContext) []Tag {
@@ -310,17 +279,21 @@ func (v *CrayonVisitor) VisitScript(ctx *parser.ScriptContext) []Tag {
 	return tags
 }
 
-func (v *CrayonVisitor) RunTag(tag Tag) any {
-	return tag.Run(v)
+func (v *CrayonVisitor) RunTag(tag Tag, args []any) any {
+	return tag.Run(v, args)
 }
 
-func (v *CrayonVisitor) RunAllTags(tags []Tag) []any {
+func (v *CrayonVisitor) RunAllAvailableTags(tags []Tag, tagsArgs [][]any) []any {
 	v.StartTag()
 
 	vals := []any{}
 
-	for _, tag := range tags {
-		vals = append(vals, v.RunTag(tag))
+	for i, tag := range tags {
+		if tag.Type() == "Custom" {
+			continue
+		}
+
+		vals = append(vals, v.RunTag(tag, tagsArgs[i]))
 	}
 
 	go v.EndTag()

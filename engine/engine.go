@@ -20,8 +20,6 @@ type Variable struct {
 
 type ScopeAsValue = func() any
 
-type any interface{}
-
 type Path interface{}
 
 type KeywordPath struct {
@@ -86,6 +84,11 @@ var ScopePath ValuePath = NewValuePath("Scope", func(a any) bool {
 
 	return ok
 }).(ValuePath)
+var ValueTagPath ValuePath = NewValuePath("Tag", func(a any) bool {
+	_, ok := a.(*CustomTag)
+
+	return ok
+}).(ValuePath)
 
 type Engine struct {
 	Commands []Command
@@ -124,8 +127,12 @@ func (e *Engine) AddCommand(cmd Command) {
 	e.Commands = append(e.Commands, cmd)
 }
 
+func (e *Engine) AddCommands(cmds ...Command) {
+	e.Commands = append(e.Commands, cmds...)
+}
+
 func (e *Engine) ParseCommand(visitor *CrayonVisitor, commandCtx *parser.CommandContext) any {
-	ctxPaths := commandCtx.Paths
+	ctxPaths := commandCtx.AllPath()
 
 	for _, cmd := range e.Commands {
 		for _, route := range cmd.Routes {
@@ -147,7 +154,14 @@ func (e *Engine) ParseCommand(visitor *CrayonVisitor, commandCtx *parser.Command
 							break
 						}
 					case ValuePath:
-						val := visitor.VisitValuePath(ctxPath.(*parser.PathContext).ValuePath().(*parser.ValuePathContext))
+						vP := ctxPath.(*parser.PathContext).ValuePath()
+
+						if vP == nil {
+							skip = true
+							break
+						}
+
+						val := visitor.VisitValuePath(vP.(*parser.ValuePathContext))
 
 						if v, ok := val.(Variable); ok && p.Type != VariablePath.Type {
 							var er error
@@ -176,7 +190,7 @@ func (e *Engine) ParseCommand(visitor *CrayonVisitor, commandCtx *parser.Command
 		}
 	}
 
-	panic(fmt.Errorf("unknown command: '%s'", commandCtx.GetText()))
+	panic(fmt.Errorf("Unknown command: '%s'", BeautifyCommandContext(commandCtx)))
 }
 
 type CrayonErrorListener struct {
@@ -184,69 +198,5 @@ type CrayonErrorListener struct {
 }
 
 func (el *CrayonErrorListener) SyntaxError(recognizer antlr.Recognizer, offendingSymbol any, line, column int, msg string, e antlr.RecognitionException) {
-	panic(fmt.Sprintf("syntax error at line %d:%d, %s", line, column, msg))
-}
-
-type Scope struct {
-	Variables   map[string]any
-	ParentScope *Scope
-}
-
-func NewScope(parentScope *Scope) *Scope {
-	return &Scope{
-		Variables:   make(map[string]any),
-		ParentScope: parentScope,
-	}
-}
-
-func (s *Scope) GetVariable(name string) (any, error) {
-	value, ok := s.Variables[name]
-	if ok {
-		return value, nil
-	}
-
-	if s.ParentScope != nil {
-		return s.ParentScope.GetVariable(name)
-	}
-
-	return nil, fmt.Errorf("variable '%s' not found", name)
-}
-
-func (s *Scope) SetVariable(name string, value any) {
-	s.Variables[name] = value
-}
-
-func (s *Scope) DefineVariable(name string, value any) error {
-	if _, ok := s.Variables[name]; ok {
-		return fmt.Errorf("variable '%s' already defined", name)
-	}
-
-	s.Variables[name] = value
-	return nil
-}
-
-func (s *Scope) UpdateVariable(name string, value any) error {
-	if _, ok := s.Variables[name]; !ok {
-		if s.ParentScope != nil {
-			return s.ParentScope.UpdateVariable(name, value)
-		} else {
-			return fmt.Errorf("variable '%s' not found", name)
-		}
-	}
-
-	s.Variables[name] = value
-	return nil
-}
-
-func (s *Scope) DeleteVariable(name string) error {
-	if _, ok := s.Variables[name]; !ok {
-		if s.ParentScope != nil {
-			return s.ParentScope.DeleteVariable(name)
-		} else {
-			return fmt.Errorf("variable '%s' not found", name)
-		}
-	}
-
-	delete(s.Variables, name)
-	return nil
+	panic(fmt.Sprintf("Syntax error at line %d:%d, %s", line, column, msg))
 }

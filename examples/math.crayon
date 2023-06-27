@@ -1,6 +1,6 @@
 [MAIN]
-write @(add 5 by 10) to console
-write @(sub 5 by 10) to console
-write @(multiply 5 by 10) to console
-write @(divide 5 by 10) to console
-write #PI to console
+write @(add 5 by 10) to console;
+write @(sub 5 by 10) to console;
+write @(multiply 5 by 10) to console;
+write @(divide 5 by 10) to console;
+write #PI to console;

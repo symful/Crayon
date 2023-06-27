@@ -33,99 +33,107 @@ var crayonParserStaticData struct {
 func crayonParserInit() {
 	staticData := &crayonParserStaticData
 	staticData.literalNames = []string{
-		"", "'$'", "'='", "'{'", "','", "'}'", "'['", "']'", "'@('", "')'",
-		"'('", "' '", "';'", "'.'",
+		"", "'$'", "'='", "'#{'", "','", "'}'", "'#['", "']'", "'@('", "')'",
+		"'('", "'@'", "'{'", "';'", "'['", "", "", "", "", "", "", "", "", "",
+		"", "'~'",
 	}
 	staticData.symbolicNames = []string{
-		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "NUMBER", "MAIN",
-		"FRAME", "LOOP", "STRING", "NONE", "INFINITY", "YES", "NO", "PI", "IDENTIFIER",
-		"WS",
+		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "NUMBER",
+		"MAIN", "FRAME", "LOOP", "STRING", "NONE", "INFINITY", "YES", "NO",
+		"PI", "END", "WS", "IDENTIFIER",
 	}
 	staticData.ruleNames = []string{
 		"variable", "numberLiteral", "pair", "stringLiteral", "none", "bool",
-		"pI", "infinity", "object", "array", "commandValue", "value", "keywordPath",
-		"valuePath", "path", "command", "scope", "exp", "tag", "script",
+		"pI", "infinity", "object", "array", "commandValue", "value", "end",
+		"keywordPath", "valueTag", "valuePath", "path", "command", "scope",
+		"exp", "tag", "mainTag", "frameTag", "loopTag", "customTag", "script",
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 25, 180, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 1, 27, 198, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
 		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 2, 8, 7, 8, 2, 9, 7, 9, 2, 10, 7,
 		10, 2, 11, 7, 11, 2, 12, 7, 12, 2, 13, 7, 13, 2, 14, 7, 14, 2, 15, 7, 15,
-		2, 16, 7, 16, 2, 17, 7, 17, 2, 18, 7, 18, 2, 19, 7, 19, 1, 0, 1, 0, 1,
-		0, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 3, 1, 3, 1, 4, 1, 4, 1, 5, 1,
-		5, 1, 6, 1, 6, 1, 7, 1, 7, 1, 8, 1, 8, 1, 8, 1, 8, 3, 8, 64, 8, 8, 5, 8,
-		66, 8, 8, 10, 8, 12, 8, 69, 9, 8, 3, 8, 71, 8, 8, 1, 8, 1, 8, 1, 9, 1,
-		9, 1, 9, 1, 9, 3, 9, 79, 8, 9, 5, 9, 81, 8, 9, 10, 9, 12, 9, 84, 9, 9,
-		3, 9, 86, 8, 9, 1, 9, 1, 9, 1, 10, 1, 10, 1, 10, 1, 10, 1, 11, 1, 11, 1,
+		2, 16, 7, 16, 2, 17, 7, 17, 2, 18, 7, 18, 2, 19, 7, 19, 2, 20, 7, 20, 2,
+		21, 7, 21, 2, 22, 7, 22, 2, 23, 7, 23, 2, 24, 7, 24, 2, 25, 7, 25, 1, 0,
+		1, 0, 1, 0, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 3, 1, 3, 1, 4, 1, 4,
+		1, 5, 1, 5, 1, 6, 1, 6, 1, 7, 1, 7, 1, 8, 1, 8, 1, 8, 1, 8, 3, 8, 76, 8,
+		8, 5, 8, 78, 8, 8, 10, 8, 12, 8, 81, 9, 8, 3, 8, 83, 8, 8, 1, 8, 1, 8,
+		1, 9, 1, 9, 1, 9, 1, 9, 3, 9, 91, 8, 9, 5, 9, 93, 8, 9, 10, 9, 12, 9, 96,
+		9, 9, 3, 9, 98, 8, 9, 1, 9, 1, 9, 1, 10, 1, 10, 1, 10, 1, 10, 1, 11, 1,
 		11, 1, 11, 1, 11, 1, 11, 1, 11, 1, 11, 1, 11, 1, 11, 1, 11, 1, 11, 1, 11,
-		1, 11, 3, 11, 108, 8, 11, 1, 12, 1, 12, 1, 13, 1, 13, 3, 13, 114, 8, 13,
-		1, 14, 1, 14, 3, 14, 118, 8, 14, 1, 15, 1, 15, 4, 15, 122, 8, 15, 11, 15,
-		12, 15, 123, 1, 15, 5, 15, 127, 8, 15, 10, 15, 12, 15, 130, 9, 15, 1, 16,
-		1, 16, 5, 16, 134, 8, 16, 10, 16, 12, 16, 137, 9, 16, 1, 16, 1, 16, 1,
-		17, 1, 17, 1, 17, 1, 17, 3, 17, 145, 8, 17, 5, 17, 147, 8, 17, 10, 17,
-		12, 17, 150, 9, 17, 3, 17, 152, 8, 17, 1, 18, 1, 18, 1, 18, 1, 18, 4, 18,
-		158, 8, 18, 11, 18, 12, 18, 159, 1, 18, 1, 18, 3, 18, 164, 8, 18, 1, 18,
-		1, 18, 5, 18, 168, 8, 18, 10, 18, 12, 18, 171, 9, 18, 1, 19, 4, 19, 174,
-		8, 19, 11, 19, 12, 19, 175, 1, 19, 1, 19, 1, 19, 0, 0, 20, 0, 2, 4, 6,
-		8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 0, 2, 1,
-		0, 21, 22, 2, 0, 4, 4, 12, 13, 188, 0, 40, 1, 0, 0, 0, 2, 43, 1, 0, 0,
-		0, 4, 45, 1, 0, 0, 0, 6, 49, 1, 0, 0, 0, 8, 51, 1, 0, 0, 0, 10, 53, 1,
-		0, 0, 0, 12, 55, 1, 0, 0, 0, 14, 57, 1, 0, 0, 0, 16, 59, 1, 0, 0, 0, 18,
-		74, 1, 0, 0, 0, 20, 89, 1, 0, 0, 0, 22, 107, 1, 0, 0, 0, 24, 109, 1, 0,
-		0, 0, 26, 113, 1, 0, 0, 0, 28, 117, 1, 0, 0, 0, 30, 119, 1, 0, 0, 0, 32,
-		131, 1, 0, 0, 0, 34, 151, 1, 0, 0, 0, 36, 153, 1, 0, 0, 0, 38, 173, 1,
-		0, 0, 0, 40, 41, 5, 1, 0, 0, 41, 42, 5, 24, 0, 0, 42, 1, 1, 0, 0, 0, 43,
-		44, 5, 14, 0, 0, 44, 3, 1, 0, 0, 0, 45, 46, 5, 24, 0, 0, 46, 47, 5, 2,
-		0, 0, 47, 48, 3, 22, 11, 0, 48, 5, 1, 0, 0, 0, 49, 50, 5, 18, 0, 0, 50,
-		7, 1, 0, 0, 0, 51, 52, 5, 19, 0, 0, 52, 9, 1, 0, 0, 0, 53, 54, 7, 0, 0,
-		0, 54, 11, 1, 0, 0, 0, 55, 56, 5, 23, 0, 0, 56, 13, 1, 0, 0, 0, 57, 58,
-		5, 20, 0, 0, 58, 15, 1, 0, 0, 0, 59, 70, 5, 3, 0, 0, 60, 67, 3, 4, 2, 0,
-		61, 63, 5, 4, 0, 0, 62, 64, 3, 4, 2, 0, 63, 62, 1, 0, 0, 0, 63, 64, 1,
-		0, 0, 0, 64, 66, 1, 0, 0, 0, 65, 61, 1, 0, 0, 0, 66, 69, 1, 0, 0, 0, 67,
-		65, 1, 0, 0, 0, 67, 68, 1, 0, 0, 0, 68, 71, 1, 0, 0, 0, 69, 67, 1, 0, 0,
-		0, 70, 60, 1, 0, 0, 0, 70, 71, 1, 0, 0, 0, 71, 72, 1, 0, 0, 0, 72, 73,
-		5, 5, 0, 0, 73, 17, 1, 0, 0, 0, 74, 85, 5, 6, 0, 0, 75, 82, 3, 22, 11,
-		0, 76, 78, 5, 4, 0, 0, 77, 79, 3, 22, 11, 0, 78, 77, 1, 0, 0, 0, 78, 79,
-		1, 0, 0, 0, 79, 81, 1, 0, 0, 0, 80, 76, 1, 0, 0, 0, 81, 84, 1, 0, 0, 0,
-		82, 80, 1, 0, 0, 0, 82, 83, 1, 0, 0, 0, 83, 86, 1, 0, 0, 0, 84, 82, 1,
-		0, 0, 0, 85, 75, 1, 0, 0, 0, 85, 86, 1, 0, 0, 0, 86, 87, 1, 0, 0, 0, 87,
-		88, 5, 7, 0, 0, 88, 19, 1, 0, 0, 0, 89, 90, 5, 8, 0, 0, 90, 91, 3, 30,
-		15, 0, 91, 92, 5, 9, 0, 0, 92, 21, 1, 0, 0, 0, 93, 108, 3, 12, 6, 0, 94,
-		108, 3, 10, 5, 0, 95, 108, 3, 20, 10, 0, 96, 108, 3, 0, 0, 0, 97, 108,
-		3, 8, 4, 0, 98, 108, 3, 14, 7, 0, 99, 108, 3, 6, 3, 0, 100, 108, 3, 2,
-		1, 0, 101, 108, 3, 16, 8, 0, 102, 108, 3, 18, 9, 0, 103, 104, 5, 10, 0,
-		0, 104, 105, 3, 22, 11, 0, 105, 106, 5, 9, 0, 0, 106, 108, 1, 0, 0, 0,
-		107, 93, 1, 0, 0, 0, 107, 94, 1, 0, 0, 0, 107, 95, 1, 0, 0, 0, 107, 96,
-		1, 0, 0, 0, 107, 97, 1, 0, 0, 0, 107, 98, 1, 0, 0, 0, 107, 99, 1, 0, 0,
-		0, 107, 100, 1, 0, 0, 0, 107, 101, 1, 0, 0, 0, 107, 102, 1, 0, 0, 0, 107,
-		103, 1, 0, 0, 0, 108, 23, 1, 0, 0, 0, 109, 110, 5, 24, 0, 0, 110, 25, 1,
-		0, 0, 0, 111, 114, 3, 22, 11, 0, 112, 114, 3, 32, 16, 0, 113, 111, 1, 0,
-		0, 0, 113, 112, 1, 0, 0, 0, 114, 27, 1, 0, 0, 0, 115, 118, 3, 24, 12, 0,
-		116, 118, 3, 26, 13, 0, 117, 115, 1, 0, 0, 0, 117, 116, 1, 0, 0, 0, 118,
-		29, 1, 0, 0, 0, 119, 128, 3, 28, 14, 0, 120, 122, 5, 11, 0, 0, 121, 120,
-		1, 0, 0, 0, 122, 123, 1, 0, 0, 0, 123, 121, 1, 0, 0, 0, 123, 124, 1, 0,
-		0, 0, 124, 125, 1, 0, 0, 0, 125, 127, 3, 28, 14, 0, 126, 121, 1, 0, 0,
-		0, 127, 130, 1, 0, 0, 0, 128, 126, 1, 0, 0, 0, 128, 129, 1, 0, 0, 0, 129,
-		31, 1, 0, 0, 0, 130, 128, 1, 0, 0, 0, 131, 135, 5, 3, 0, 0, 132, 134, 3,
-		34, 17, 0, 133, 132, 1, 0, 0, 0, 134, 137, 1, 0, 0, 0, 135, 133, 1, 0,
-		0, 0, 135, 136, 1, 0, 0, 0, 136, 138, 1, 0, 0, 0, 137, 135, 1, 0, 0, 0,
-		138, 139, 5, 5, 0, 0, 139, 33, 1, 0, 0, 0, 140, 152, 3, 32, 16, 0, 141,
-		148, 3, 30, 15, 0, 142, 144, 7, 1, 0, 0, 143, 145, 3, 30, 15, 0, 144, 143,
-		1, 0, 0, 0, 144, 145, 1, 0, 0, 0, 145, 147, 1, 0, 0, 0, 146, 142, 1, 0,
-		0, 0, 147, 150, 1, 0, 0, 0, 148, 146, 1, 0, 0, 0, 148, 149, 1, 0, 0, 0,
-		149, 152, 1, 0, 0, 0, 150, 148, 1, 0, 0, 0, 151, 140, 1, 0, 0, 0, 151,
-		141, 1, 0, 0, 0, 152, 35, 1, 0, 0, 0, 153, 163, 5, 6, 0, 0, 154, 164, 5,
-		15, 0, 0, 155, 157, 5, 16, 0, 0, 156, 158, 5, 11, 0, 0, 157, 156, 1, 0,
-		0, 0, 158, 159, 1, 0, 0, 0, 159, 157, 1, 0, 0, 0, 159, 160, 1, 0, 0, 0,
-		160, 161, 1, 0, 0, 0, 161, 164, 5, 14, 0, 0, 162, 164, 5, 17, 0, 0, 163,
-		154, 1, 0, 0, 0, 163, 155, 1, 0, 0, 0, 163, 162, 1, 0, 0, 0, 164, 165,
-		1, 0, 0, 0, 165, 169, 5, 7, 0, 0, 166, 168, 3, 34, 17, 0, 167, 166, 1,
-		0, 0, 0, 168, 171, 1, 0, 0, 0, 169, 167, 1, 0, 0, 0, 169, 170, 1, 0, 0,
-		0, 170, 37, 1, 0, 0, 0, 171, 169, 1, 0, 0, 0, 172, 174, 3, 36, 18, 0, 173,
-		172, 1, 0, 0, 0, 174, 175, 1, 0, 0, 0, 175, 173, 1, 0, 0, 0, 175, 176,
-		1, 0, 0, 0, 176, 177, 1, 0, 0, 0, 177, 178, 5, 0, 0, 1, 178, 39, 1, 0,
-		0, 0, 19, 63, 67, 70, 78, 82, 85, 107, 113, 117, 123, 128, 135, 144, 148,
-		151, 159, 163, 169, 175,
+		1, 11, 1, 11, 1, 11, 3, 11, 121, 8, 11, 1, 12, 1, 12, 3, 12, 125, 8, 12,
+		1, 13, 1, 13, 1, 14, 1, 14, 1, 14, 1, 15, 1, 15, 3, 15, 134, 8, 15, 1,
+		16, 1, 16, 3, 16, 138, 8, 16, 1, 17, 4, 17, 141, 8, 17, 11, 17, 12, 17,
+		142, 1, 18, 1, 18, 1, 18, 5, 18, 148, 8, 18, 10, 18, 12, 18, 151, 9, 18,
+		1, 18, 1, 18, 1, 19, 1, 19, 1, 19, 3, 19, 158, 8, 19, 1, 19, 4, 19, 161,
+		8, 19, 11, 19, 12, 19, 162, 4, 19, 165, 8, 19, 11, 19, 12, 19, 166, 3,
+		19, 169, 8, 19, 1, 20, 1, 20, 1, 20, 1, 20, 1, 20, 3, 20, 176, 8, 20, 1,
+		20, 1, 20, 1, 20, 1, 21, 1, 21, 1, 22, 1, 22, 1, 22, 1, 23, 1, 23, 1, 24,
+		1, 24, 1, 24, 1, 25, 4, 25, 192, 8, 25, 11, 25, 12, 25, 193, 1, 25, 1,
+		25, 1, 25, 0, 0, 26, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26,
+		28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 0, 1, 1, 0, 22, 23, 202,
+		0, 52, 1, 0, 0, 0, 2, 55, 1, 0, 0, 0, 4, 57, 1, 0, 0, 0, 6, 61, 1, 0, 0,
+		0, 8, 63, 1, 0, 0, 0, 10, 65, 1, 0, 0, 0, 12, 67, 1, 0, 0, 0, 14, 69, 1,
+		0, 0, 0, 16, 71, 1, 0, 0, 0, 18, 86, 1, 0, 0, 0, 20, 101, 1, 0, 0, 0, 22,
+		120, 1, 0, 0, 0, 24, 122, 1, 0, 0, 0, 26, 126, 1, 0, 0, 0, 28, 128, 1,
+		0, 0, 0, 30, 133, 1, 0, 0, 0, 32, 137, 1, 0, 0, 0, 34, 140, 1, 0, 0, 0,
+		36, 144, 1, 0, 0, 0, 38, 168, 1, 0, 0, 0, 40, 170, 1, 0, 0, 0, 42, 180,
+		1, 0, 0, 0, 44, 182, 1, 0, 0, 0, 46, 185, 1, 0, 0, 0, 48, 187, 1, 0, 0,
+		0, 50, 191, 1, 0, 0, 0, 52, 53, 5, 1, 0, 0, 53, 54, 5, 27, 0, 0, 54, 1,
+		1, 0, 0, 0, 55, 56, 5, 15, 0, 0, 56, 3, 1, 0, 0, 0, 57, 58, 5, 27, 0, 0,
+		58, 59, 5, 2, 0, 0, 59, 60, 3, 22, 11, 0, 60, 5, 1, 0, 0, 0, 61, 62, 5,
+		19, 0, 0, 62, 7, 1, 0, 0, 0, 63, 64, 5, 20, 0, 0, 64, 9, 1, 0, 0, 0, 65,
+		66, 7, 0, 0, 0, 66, 11, 1, 0, 0, 0, 67, 68, 5, 24, 0, 0, 68, 13, 1, 0,
+		0, 0, 69, 70, 5, 21, 0, 0, 70, 15, 1, 0, 0, 0, 71, 82, 5, 3, 0, 0, 72,
+		79, 3, 4, 2, 0, 73, 75, 5, 4, 0, 0, 74, 76, 3, 4, 2, 0, 75, 74, 1, 0, 0,
+		0, 75, 76, 1, 0, 0, 0, 76, 78, 1, 0, 0, 0, 77, 73, 1, 0, 0, 0, 78, 81,
+		1, 0, 0, 0, 79, 77, 1, 0, 0, 0, 79, 80, 1, 0, 0, 0, 80, 83, 1, 0, 0, 0,
+		81, 79, 1, 0, 0, 0, 82, 72, 1, 0, 0, 0, 82, 83, 1, 0, 0, 0, 83, 84, 1,
+		0, 0, 0, 84, 85, 5, 5, 0, 0, 85, 17, 1, 0, 0, 0, 86, 97, 5, 6, 0, 0, 87,
+		94, 3, 22, 11, 0, 88, 90, 5, 4, 0, 0, 89, 91, 3, 22, 11, 0, 90, 89, 1,
+		0, 0, 0, 90, 91, 1, 0, 0, 0, 91, 93, 1, 0, 0, 0, 92, 88, 1, 0, 0, 0, 93,
+		96, 1, 0, 0, 0, 94, 92, 1, 0, 0, 0, 94, 95, 1, 0, 0, 0, 95, 98, 1, 0, 0,
+		0, 96, 94, 1, 0, 0, 0, 97, 87, 1, 0, 0, 0, 97, 98, 1, 0, 0, 0, 98, 99,
+		1, 0, 0, 0, 99, 100, 5, 7, 0, 0, 100, 19, 1, 0, 0, 0, 101, 102, 5, 8, 0,
+		0, 102, 103, 3, 34, 17, 0, 103, 104, 5, 9, 0, 0, 104, 21, 1, 0, 0, 0, 105,
+		121, 3, 12, 6, 0, 106, 121, 3, 10, 5, 0, 107, 121, 3, 28, 14, 0, 108, 121,
+		3, 20, 10, 0, 109, 121, 3, 0, 0, 0, 110, 121, 3, 8, 4, 0, 111, 121, 3,
+		14, 7, 0, 112, 121, 3, 6, 3, 0, 113, 121, 3, 2, 1, 0, 114, 121, 3, 16,
+		8, 0, 115, 121, 3, 18, 9, 0, 116, 117, 5, 10, 0, 0, 117, 118, 3, 22, 11,
+		0, 118, 119, 5, 9, 0, 0, 119, 121, 1, 0, 0, 0, 120, 105, 1, 0, 0, 0, 120,
+		106, 1, 0, 0, 0, 120, 107, 1, 0, 0, 0, 120, 108, 1, 0, 0, 0, 120, 109,
+		1, 0, 0, 0, 120, 110, 1, 0, 0, 0, 120, 111, 1, 0, 0, 0, 120, 112, 1, 0,
+		0, 0, 120, 113, 1, 0, 0, 0, 120, 114, 1, 0, 0, 0, 120, 115, 1, 0, 0, 0,
+		120, 116, 1, 0, 0, 0, 121, 23, 1, 0, 0, 0, 122, 124, 5, 25, 0, 0, 123,
+		125, 3, 22, 11, 0, 124, 123, 1, 0, 0, 0, 124, 125, 1, 0, 0, 0, 125, 25,
+		1, 0, 0, 0, 126, 127, 5, 27, 0, 0, 127, 27, 1, 0, 0, 0, 128, 129, 5, 11,
+		0, 0, 129, 130, 5, 27, 0, 0, 130, 29, 1, 0, 0, 0, 131, 134, 3, 22, 11,
+		0, 132, 134, 3, 36, 18, 0, 133, 131, 1, 0, 0, 0, 133, 132, 1, 0, 0, 0,
+		134, 31, 1, 0, 0, 0, 135, 138, 3, 26, 13, 0, 136, 138, 3, 30, 15, 0, 137,
+		135, 1, 0, 0, 0, 137, 136, 1, 0, 0, 0, 138, 33, 1, 0, 0, 0, 139, 141, 3,
+		32, 16, 0, 140, 139, 1, 0, 0, 0, 141, 142, 1, 0, 0, 0, 142, 140, 1, 0,
+		0, 0, 142, 143, 1, 0, 0, 0, 143, 35, 1, 0, 0, 0, 144, 149, 5, 12, 0, 0,
+		145, 148, 3, 38, 19, 0, 146, 148, 3, 24, 12, 0, 147, 145, 1, 0, 0, 0, 147,
+		146, 1, 0, 0, 0, 148, 151, 1, 0, 0, 0, 149, 147, 1, 0, 0, 0, 149, 150,
+		1, 0, 0, 0, 150, 152, 1, 0, 0, 0, 151, 149, 1, 0, 0, 0, 152, 153, 5, 5,
+		0, 0, 153, 37, 1, 0, 0, 0, 154, 169, 3, 36, 18, 0, 155, 158, 3, 34, 17,
+		0, 156, 158, 3, 24, 12, 0, 157, 155, 1, 0, 0, 0, 157, 156, 1, 0, 0, 0,
+		158, 160, 1, 0, 0, 0, 159, 161, 5, 13, 0, 0, 160, 159, 1, 0, 0, 0, 161,
+		162, 1, 0, 0, 0, 162, 160, 1, 0, 0, 0, 162, 163, 1, 0, 0, 0, 163, 165,
+		1, 0, 0, 0, 164, 157, 1, 0, 0, 0, 165, 166, 1, 0, 0, 0, 166, 164, 1, 0,
+		0, 0, 166, 167, 1, 0, 0, 0, 167, 169, 1, 0, 0, 0, 168, 154, 1, 0, 0, 0,
+		168, 164, 1, 0, 0, 0, 169, 39, 1, 0, 0, 0, 170, 175, 5, 14, 0, 0, 171,
+		176, 3, 42, 21, 0, 172, 176, 3, 44, 22, 0, 173, 176, 3, 46, 23, 0, 174,
+		176, 3, 48, 24, 0, 175, 171, 1, 0, 0, 0, 175, 172, 1, 0, 0, 0, 175, 173,
+		1, 0, 0, 0, 175, 174, 1, 0, 0, 0, 176, 177, 1, 0, 0, 0, 177, 178, 5, 7,
+		0, 0, 178, 179, 3, 38, 19, 0, 179, 41, 1, 0, 0, 0, 180, 181, 5, 16, 0,
+		0, 181, 43, 1, 0, 0, 0, 182, 183, 5, 17, 0, 0, 183, 184, 5, 15, 0, 0, 184,
+		45, 1, 0, 0, 0, 185, 186, 5, 18, 0, 0, 186, 47, 1, 0, 0, 0, 187, 188, 5,
+		11, 0, 0, 188, 189, 5, 27, 0, 0, 189, 49, 1, 0, 0, 0, 190, 192, 3, 40,
+		20, 0, 191, 190, 1, 0, 0, 0, 192, 193, 1, 0, 0, 0, 193, 191, 1, 0, 0, 0,
+		193, 194, 1, 0, 0, 0, 194, 195, 1, 0, 0, 0, 195, 196, 5, 0, 0, 1, 196,
+		51, 1, 0, 0, 0, 19, 75, 79, 82, 90, 94, 97, 120, 124, 133, 137, 142, 147,
+		149, 157, 162, 166, 168, 175, 193,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -177,18 +185,20 @@ const (
 	CrayonParserT__10      = 11
 	CrayonParserT__11      = 12
 	CrayonParserT__12      = 13
-	CrayonParserNUMBER     = 14
-	CrayonParserMAIN       = 15
-	CrayonParserFRAME      = 16
-	CrayonParserLOOP       = 17
-	CrayonParserSTRING     = 18
-	CrayonParserNONE       = 19
-	CrayonParserINFINITY   = 20
-	CrayonParserYES        = 21
-	CrayonParserNO         = 22
-	CrayonParserPI         = 23
-	CrayonParserIDENTIFIER = 24
-	CrayonParserWS         = 25
+	CrayonParserT__13      = 14
+	CrayonParserNUMBER     = 15
+	CrayonParserMAIN       = 16
+	CrayonParserFRAME      = 17
+	CrayonParserLOOP       = 18
+	CrayonParserSTRING     = 19
+	CrayonParserNONE       = 20
+	CrayonParserINFINITY   = 21
+	CrayonParserYES        = 22
+	CrayonParserNO         = 23
+	CrayonParserPI         = 24
+	CrayonParserEND        = 25
+	CrayonParserWS         = 26
+	CrayonParserIDENTIFIER = 27
 )
 
 // CrayonParser rules.
@@ -205,14 +215,20 @@ const (
 	CrayonParserRULE_array         = 9
 	CrayonParserRULE_commandValue  = 10
 	CrayonParserRULE_value         = 11
-	CrayonParserRULE_keywordPath   = 12
-	CrayonParserRULE_valuePath     = 13
-	CrayonParserRULE_path          = 14
-	CrayonParserRULE_command       = 15
-	CrayonParserRULE_scope         = 16
-	CrayonParserRULE_exp           = 17
-	CrayonParserRULE_tag           = 18
-	CrayonParserRULE_script        = 19
+	CrayonParserRULE_end           = 12
+	CrayonParserRULE_keywordPath   = 13
+	CrayonParserRULE_valueTag      = 14
+	CrayonParserRULE_valuePath     = 15
+	CrayonParserRULE_path          = 16
+	CrayonParserRULE_command       = 17
+	CrayonParserRULE_scope         = 18
+	CrayonParserRULE_exp           = 19
+	CrayonParserRULE_tag           = 20
+	CrayonParserRULE_mainTag       = 21
+	CrayonParserRULE_frameTag      = 22
+	CrayonParserRULE_loopTag       = 23
+	CrayonParserRULE_customTag     = 24
+	CrayonParserRULE_script        = 25
 )
 
 // IVariableContext is an interface to support dynamic dispatch.
@@ -312,11 +328,11 @@ func (p *CrayonParser) Variable() (localctx IVariableContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(40)
+		p.SetState(52)
 		p.Match(CrayonParserT__0)
 	}
 	{
-		p.SetState(41)
+		p.SetState(53)
 		p.Match(CrayonParserIDENTIFIER)
 	}
 
@@ -420,7 +436,7 @@ func (p *CrayonParser) NumberLiteral() (localctx INumberLiteralContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(43)
+		p.SetState(55)
 		p.Match(CrayonParserNUMBER)
 	}
 
@@ -540,15 +556,15 @@ func (p *CrayonParser) Pair() (localctx IPairContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(45)
+		p.SetState(57)
 		p.Match(CrayonParserIDENTIFIER)
 	}
 	{
-		p.SetState(46)
+		p.SetState(58)
 		p.Match(CrayonParserT__1)
 	}
 	{
-		p.SetState(47)
+		p.SetState(59)
 		p.Value()
 	}
 
@@ -652,7 +668,7 @@ func (p *CrayonParser) StringLiteral() (localctx IStringLiteralContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(49)
+		p.SetState(61)
 		p.Match(CrayonParserSTRING)
 	}
 
@@ -756,7 +772,7 @@ func (p *CrayonParser) None() (localctx INoneContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(51)
+		p.SetState(63)
 		p.Match(CrayonParserNONE)
 	}
 
@@ -865,7 +881,7 @@ func (p *CrayonParser) Bool_() (localctx IBoolContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(53)
+		p.SetState(65)
 		_la = p.GetTokenStream().LA(1)
 
 		if !(_la == CrayonParserYES || _la == CrayonParserNO) {
@@ -976,7 +992,7 @@ func (p *CrayonParser) PI() (localctx IPIContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(55)
+		p.SetState(67)
 		p.Match(CrayonParserPI)
 	}
 
@@ -1080,7 +1096,7 @@ func (p *CrayonParser) Infinity() (localctx IInfinityContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(57)
+		p.SetState(69)
 		p.Match(CrayonParserINFINITY)
 	}
 
@@ -1094,18 +1110,6 @@ type IObjectContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// Get_pair returns the _pair rule contexts.
-	Get_pair() IPairContext
-
-	// Set_pair sets the _pair rule contexts.
-	Set_pair(IPairContext)
-
-	// GetPairs returns the Pairs rule context list.
-	GetPairs() []IPairContext
-
-	// SetPairs sets the Pairs rule context list.
-	SetPairs([]IPairContext)
-
 	// IsObjectContext differentiates from other interfaces.
 	IsObjectContext()
 }
@@ -1113,8 +1117,6 @@ type IObjectContext interface {
 type ObjectContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
-	_pair  IPairContext
-	Pairs  []IPairContext
 }
 
 func NewEmptyObjectContext() *ObjectContext {
@@ -1138,14 +1140,6 @@ func NewObjectContext(parser antlr.Parser, parent antlr.ParserRuleContext, invok
 }
 
 func (s *ObjectContext) GetParser() antlr.Parser { return s.parser }
-
-func (s *ObjectContext) Get_pair() IPairContext { return s._pair }
-
-func (s *ObjectContext) Set_pair(v IPairContext) { s._pair = v }
-
-func (s *ObjectContext) GetPairs() []IPairContext { return s.Pairs }
-
-func (s *ObjectContext) SetPairs(v []IPairContext) { s.Pairs = v }
 
 func (s *ObjectContext) AllPair() []IPairContext {
 	children := s.GetChildren()
@@ -1244,55 +1238,47 @@ func (p *CrayonParser) Object() (localctx IObjectContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(59)
+		p.SetState(71)
 		p.Match(CrayonParserT__2)
 	}
-	p.SetState(70)
+	p.SetState(82)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == CrayonParserIDENTIFIER {
 		{
-			p.SetState(60)
-
-			var _x = p.Pair()
-
-			localctx.(*ObjectContext)._pair = _x
+			p.SetState(72)
+			p.Pair()
 		}
-		localctx.(*ObjectContext).Pairs = append(localctx.(*ObjectContext).Pairs, localctx.(*ObjectContext)._pair)
-		p.SetState(67)
+		p.SetState(79)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 
 		for _la == CrayonParserT__3 {
 			{
-				p.SetState(61)
+				p.SetState(73)
 				p.Match(CrayonParserT__3)
 			}
-			p.SetState(63)
+			p.SetState(75)
 			p.GetErrorHandler().Sync(p)
 			_la = p.GetTokenStream().LA(1)
 
 			if _la == CrayonParserIDENTIFIER {
 				{
-					p.SetState(62)
-
-					var _x = p.Pair()
-
-					localctx.(*ObjectContext)._pair = _x
+					p.SetState(74)
+					p.Pair()
 				}
-				localctx.(*ObjectContext).Pairs = append(localctx.(*ObjectContext).Pairs, localctx.(*ObjectContext)._pair)
 
 			}
 
-			p.SetState(69)
+			p.SetState(81)
 			p.GetErrorHandler().Sync(p)
 			_la = p.GetTokenStream().LA(1)
 		}
 
 	}
 	{
-		p.SetState(72)
+		p.SetState(84)
 		p.Match(CrayonParserT__4)
 	}
 
@@ -1306,18 +1292,6 @@ type IArrayContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// Get_value returns the _value rule contexts.
-	Get_value() IValueContext
-
-	// Set_value sets the _value rule contexts.
-	Set_value(IValueContext)
-
-	// GetValues returns the Values rule context list.
-	GetValues() []IValueContext
-
-	// SetValues sets the Values rule context list.
-	SetValues([]IValueContext)
-
 	// IsArrayContext differentiates from other interfaces.
 	IsArrayContext()
 }
@@ -1325,8 +1299,6 @@ type IArrayContext interface {
 type ArrayContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
-	_value IValueContext
-	Values []IValueContext
 }
 
 func NewEmptyArrayContext() *ArrayContext {
@@ -1350,14 +1322,6 @@ func NewArrayContext(parser antlr.Parser, parent antlr.ParserRuleContext, invoki
 }
 
 func (s *ArrayContext) GetParser() antlr.Parser { return s.parser }
-
-func (s *ArrayContext) Get_value() IValueContext { return s._value }
-
-func (s *ArrayContext) Set_value(v IValueContext) { s._value = v }
-
-func (s *ArrayContext) GetValues() []IValueContext { return s.Values }
-
-func (s *ArrayContext) SetValues(v []IValueContext) { s.Values = v }
 
 func (s *ArrayContext) AllValue() []IValueContext {
 	children := s.GetChildren()
@@ -1456,55 +1420,47 @@ func (p *CrayonParser) Array() (localctx IArrayContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(74)
+		p.SetState(86)
 		p.Match(CrayonParserT__5)
 	}
-	p.SetState(85)
+	p.SetState(97)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&16532810) != 0 {
+	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&33066314) != 0 {
 		{
-			p.SetState(75)
-
-			var _x = p.Value()
-
-			localctx.(*ArrayContext)._value = _x
+			p.SetState(87)
+			p.Value()
 		}
-		localctx.(*ArrayContext).Values = append(localctx.(*ArrayContext).Values, localctx.(*ArrayContext)._value)
-		p.SetState(82)
+		p.SetState(94)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 
 		for _la == CrayonParserT__3 {
 			{
-				p.SetState(76)
+				p.SetState(88)
 				p.Match(CrayonParserT__3)
 			}
-			p.SetState(78)
+			p.SetState(90)
 			p.GetErrorHandler().Sync(p)
 			_la = p.GetTokenStream().LA(1)
 
-			if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&16532810) != 0 {
+			if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&33066314) != 0 {
 				{
-					p.SetState(77)
-
-					var _x = p.Value()
-
-					localctx.(*ArrayContext)._value = _x
+					p.SetState(89)
+					p.Value()
 				}
-				localctx.(*ArrayContext).Values = append(localctx.(*ArrayContext).Values, localctx.(*ArrayContext)._value)
 
 			}
 
-			p.SetState(84)
+			p.SetState(96)
 			p.GetErrorHandler().Sync(p)
 			_la = p.GetTokenStream().LA(1)
 		}
 
 	}
 	{
-		p.SetState(87)
+		p.SetState(99)
 		p.Match(CrayonParserT__6)
 	}
 
@@ -1620,15 +1576,15 @@ func (p *CrayonParser) CommandValue() (localctx ICommandValueContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(89)
+		p.SetState(101)
 		p.Match(CrayonParserT__7)
 	}
 	{
-		p.SetState(90)
+		p.SetState(102)
 		p.Command()
 	}
 	{
-		p.SetState(91)
+		p.SetState(103)
 		p.Match(CrayonParserT__8)
 	}
 
@@ -1703,6 +1659,22 @@ func (s *ValueContext) Bool_() IBoolContext {
 	}
 
 	return t.(IBoolContext)
+}
+
+func (s *ValueContext) ValueTag() IValueTagContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IValueTagContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IValueTagContext)
 }
 
 func (s *ValueContext) CommandValue() ICommandValueContext {
@@ -1902,97 +1874,234 @@ func (p *CrayonParser) Value() (localctx IValueContext) {
 		}
 	}()
 
-	p.SetState(107)
+	p.SetState(120)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case CrayonParserPI:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(93)
+			p.SetState(105)
 			p.PI()
 		}
 
 	case CrayonParserYES, CrayonParserNO:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(94)
+			p.SetState(106)
 			p.Bool_()
 		}
 
-	case CrayonParserT__7:
+	case CrayonParserT__10:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(95)
+			p.SetState(107)
+			p.ValueTag()
+		}
+
+	case CrayonParserT__7:
+		p.EnterOuterAlt(localctx, 4)
+		{
+			p.SetState(108)
 			p.CommandValue()
 		}
 
 	case CrayonParserT__0:
-		p.EnterOuterAlt(localctx, 4)
+		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(96)
+			p.SetState(109)
 			p.Variable()
 		}
 
 	case CrayonParserNONE:
-		p.EnterOuterAlt(localctx, 5)
+		p.EnterOuterAlt(localctx, 6)
 		{
-			p.SetState(97)
+			p.SetState(110)
 			p.None()
 		}
 
 	case CrayonParserINFINITY:
-		p.EnterOuterAlt(localctx, 6)
+		p.EnterOuterAlt(localctx, 7)
 		{
-			p.SetState(98)
+			p.SetState(111)
 			p.Infinity()
 		}
 
 	case CrayonParserSTRING:
-		p.EnterOuterAlt(localctx, 7)
+		p.EnterOuterAlt(localctx, 8)
 		{
-			p.SetState(99)
+			p.SetState(112)
 			p.StringLiteral()
 		}
 
 	case CrayonParserNUMBER:
-		p.EnterOuterAlt(localctx, 8)
+		p.EnterOuterAlt(localctx, 9)
 		{
-			p.SetState(100)
+			p.SetState(113)
 			p.NumberLiteral()
 		}
 
 	case CrayonParserT__2:
-		p.EnterOuterAlt(localctx, 9)
+		p.EnterOuterAlt(localctx, 10)
 		{
-			p.SetState(101)
+			p.SetState(114)
 			p.Object()
 		}
 
 	case CrayonParserT__5:
-		p.EnterOuterAlt(localctx, 10)
+		p.EnterOuterAlt(localctx, 11)
 		{
-			p.SetState(102)
+			p.SetState(115)
 			p.Array()
 		}
 
 	case CrayonParserT__9:
-		p.EnterOuterAlt(localctx, 11)
+		p.EnterOuterAlt(localctx, 12)
 		{
-			p.SetState(103)
+			p.SetState(116)
 			p.Match(CrayonParserT__9)
 		}
 		{
-			p.SetState(104)
+			p.SetState(117)
 			p.Value()
 		}
 		{
-			p.SetState(105)
+			p.SetState(118)
 			p.Match(CrayonParserT__8)
 		}
 
 	default:
 		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+	}
+
+	return localctx
+}
+
+// IEndContext is an interface to support dynamic dispatch.
+type IEndContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsEndContext differentiates from other interfaces.
+	IsEndContext()
+}
+
+type EndContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyEndContext() *EndContext {
+	var p = new(EndContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = CrayonParserRULE_end
+	return p
+}
+
+func (*EndContext) IsEndContext() {}
+
+func NewEndContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *EndContext {
+	var p = new(EndContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CrayonParserRULE_end
+
+	return p
+}
+
+func (s *EndContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *EndContext) END() antlr.TerminalNode {
+	return s.GetToken(CrayonParserEND, 0)
+}
+
+func (s *EndContext) Value() IValueContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IValueContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IValueContext)
+}
+
+func (s *EndContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *EndContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *EndContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CrayonListener); ok {
+		listenerT.EnterEnd(s)
+	}
+}
+
+func (s *EndContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CrayonListener); ok {
+		listenerT.ExitEnd(s)
+	}
+}
+
+func (s *EndContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case CrayonVisitor:
+		return t.VisitEnd(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *CrayonParser) End() (localctx IEndContext) {
+	this := p
+	_ = this
+
+	localctx = NewEndContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 24, CrayonParserRULE_end)
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(122)
+		p.Match(CrayonParserEND)
+	}
+	p.SetState(124)
+	p.GetErrorHandler().Sync(p)
+
+	if p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 7, p.GetParserRuleContext()) == 1 {
+		{
+			p.SetState(123)
+			p.Value()
+		}
+
 	}
 
 	return localctx
@@ -2075,7 +2184,7 @@ func (p *CrayonParser) KeywordPath() (localctx IKeywordPathContext) {
 	_ = this
 
 	localctx = NewKeywordPathContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 24, CrayonParserRULE_keywordPath)
+	p.EnterRule(localctx, 26, CrayonParserRULE_keywordPath)
 
 	defer func() {
 		p.ExitRule()
@@ -2095,7 +2204,115 @@ func (p *CrayonParser) KeywordPath() (localctx IKeywordPathContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(109)
+		p.SetState(126)
+		p.Match(CrayonParserIDENTIFIER)
+	}
+
+	return localctx
+}
+
+// IValueTagContext is an interface to support dynamic dispatch.
+type IValueTagContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsValueTagContext differentiates from other interfaces.
+	IsValueTagContext()
+}
+
+type ValueTagContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyValueTagContext() *ValueTagContext {
+	var p = new(ValueTagContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = CrayonParserRULE_valueTag
+	return p
+}
+
+func (*ValueTagContext) IsValueTagContext() {}
+
+func NewValueTagContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ValueTagContext {
+	var p = new(ValueTagContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CrayonParserRULE_valueTag
+
+	return p
+}
+
+func (s *ValueTagContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *ValueTagContext) IDENTIFIER() antlr.TerminalNode {
+	return s.GetToken(CrayonParserIDENTIFIER, 0)
+}
+
+func (s *ValueTagContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ValueTagContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *ValueTagContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CrayonListener); ok {
+		listenerT.EnterValueTag(s)
+	}
+}
+
+func (s *ValueTagContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CrayonListener); ok {
+		listenerT.ExitValueTag(s)
+	}
+}
+
+func (s *ValueTagContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case CrayonVisitor:
+		return t.VisitValueTag(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *CrayonParser) ValueTag() (localctx IValueTagContext) {
+	this := p
+	_ = this
+
+	localctx = NewValueTagContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 28, CrayonParserRULE_valueTag)
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(128)
+		p.Match(CrayonParserT__10)
+	}
+	{
+		p.SetState(129)
 		p.Match(CrayonParserIDENTIFIER)
 	}
 
@@ -2207,7 +2424,7 @@ func (p *CrayonParser) ValuePath() (localctx IValuePathContext) {
 	_ = this
 
 	localctx = NewValuePathContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 26, CrayonParserRULE_valuePath)
+	p.EnterRule(localctx, 30, CrayonParserRULE_valuePath)
 
 	defer func() {
 		p.ExitRule()
@@ -2225,23 +2442,26 @@ func (p *CrayonParser) ValuePath() (localctx IValuePathContext) {
 		}
 	}()
 
-	p.SetState(113)
+	p.SetState(133)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 7, p.GetParserRuleContext()) {
-	case 1:
+
+	switch p.GetTokenStream().LA(1) {
+	case CrayonParserT__0, CrayonParserT__2, CrayonParserT__5, CrayonParserT__7, CrayonParserT__9, CrayonParserT__10, CrayonParserNUMBER, CrayonParserSTRING, CrayonParserNONE, CrayonParserINFINITY, CrayonParserYES, CrayonParserNO, CrayonParserPI:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(111)
+			p.SetState(131)
 			p.Value()
 		}
 
-	case 2:
+	case CrayonParserT__11:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(112)
+			p.SetState(132)
 			p.Scope()
 		}
 
+	default:
+		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 	}
 
 	return localctx
@@ -2352,7 +2572,7 @@ func (p *CrayonParser) Path() (localctx IPathContext) {
 	_ = this
 
 	localctx = NewPathContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 28, CrayonParserRULE_path)
+	p.EnterRule(localctx, 32, CrayonParserRULE_path)
 
 	defer func() {
 		p.ExitRule()
@@ -2370,21 +2590,21 @@ func (p *CrayonParser) Path() (localctx IPathContext) {
 		}
 	}()
 
-	p.SetState(117)
+	p.SetState(137)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case CrayonParserIDENTIFIER:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(115)
+			p.SetState(135)
 			p.KeywordPath()
 		}
 
-	case CrayonParserT__0, CrayonParserT__2, CrayonParserT__5, CrayonParserT__7, CrayonParserT__9, CrayonParserNUMBER, CrayonParserSTRING, CrayonParserNONE, CrayonParserINFINITY, CrayonParserYES, CrayonParserNO, CrayonParserPI:
+	case CrayonParserT__0, CrayonParserT__2, CrayonParserT__5, CrayonParserT__7, CrayonParserT__9, CrayonParserT__10, CrayonParserT__11, CrayonParserNUMBER, CrayonParserSTRING, CrayonParserNONE, CrayonParserINFINITY, CrayonParserYES, CrayonParserNO, CrayonParserPI:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(116)
+			p.SetState(136)
 			p.ValuePath()
 		}
 
@@ -2402,18 +2622,6 @@ type ICommandContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// Get_path returns the _path rule contexts.
-	Get_path() IPathContext
-
-	// Set_path sets the _path rule contexts.
-	Set_path(IPathContext)
-
-	// GetPaths returns the Paths rule context list.
-	GetPaths() []IPathContext
-
-	// SetPaths sets the Paths rule context list.
-	SetPaths([]IPathContext)
-
 	// IsCommandContext differentiates from other interfaces.
 	IsCommandContext()
 }
@@ -2421,8 +2629,6 @@ type ICommandContext interface {
 type CommandContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
-	_path  IPathContext
-	Paths  []IPathContext
 }
 
 func NewEmptyCommandContext() *CommandContext {
@@ -2446,14 +2652,6 @@ func NewCommandContext(parser antlr.Parser, parent antlr.ParserRuleContext, invo
 }
 
 func (s *CommandContext) GetParser() antlr.Parser { return s.parser }
-
-func (s *CommandContext) Get_path() IPathContext { return s._path }
-
-func (s *CommandContext) Set_path(v IPathContext) { s._path = v }
-
-func (s *CommandContext) GetPaths() []IPathContext { return s.Paths }
-
-func (s *CommandContext) SetPaths(v []IPathContext) { s.Paths = v }
 
 func (s *CommandContext) AllPath() []IPathContext {
 	children := s.GetChildren()
@@ -2531,7 +2729,7 @@ func (p *CrayonParser) Command() (localctx ICommandContext) {
 	_ = this
 
 	localctx = NewCommandContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 30, CrayonParserRULE_command)
+	p.EnterRule(localctx, 34, CrayonParserRULE_command)
 	var _la int
 
 	defer func() {
@@ -2551,43 +2749,17 @@ func (p *CrayonParser) Command() (localctx ICommandContext) {
 	}()
 
 	p.EnterOuterAlt(localctx, 1)
-	{
-		p.SetState(119)
-
-		var _x = p.Path()
-
-		localctx.(*CommandContext)._path = _x
-	}
-	localctx.(*CommandContext).Paths = append(localctx.(*CommandContext).Paths, localctx.(*CommandContext)._path)
-	p.SetState(128)
+	p.SetState(140)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for _la == CrayonParserT__10 {
-		p.SetState(121)
-		p.GetErrorHandler().Sync(p)
-		_la = p.GetTokenStream().LA(1)
-
-		for ok := true; ok; ok = _la == CrayonParserT__10 {
-			{
-				p.SetState(120)
-				p.Match(CrayonParserT__10)
-			}
-
-			p.SetState(123)
-			p.GetErrorHandler().Sync(p)
-			_la = p.GetTokenStream().LA(1)
-		}
+	for ok := true; ok; ok = (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&167288138) != 0 {
 		{
-			p.SetState(125)
-
-			var _x = p.Path()
-
-			localctx.(*CommandContext)._path = _x
+			p.SetState(139)
+			p.Path()
 		}
-		localctx.(*CommandContext).Paths = append(localctx.(*CommandContext).Paths, localctx.(*CommandContext)._path)
 
-		p.SetState(130)
+		p.SetState(142)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 	}
@@ -2674,6 +2846,47 @@ func (s *ScopeContext) Exp(i int) IExpContext {
 	return t.(IExpContext)
 }
 
+func (s *ScopeContext) AllEnd() []IEndContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IEndContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IEndContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IEndContext); ok {
+			tst[i] = t.(IEndContext)
+			i++
+		}
+	}
+
+	return tst
+}
+
+func (s *ScopeContext) End(i int) IEndContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IEndContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IEndContext)
+}
+
 func (s *ScopeContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
@@ -2709,7 +2922,7 @@ func (p *CrayonParser) Scope() (localctx IScopeContext) {
 	_ = this
 
 	localctx = NewScopeContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 32, CrayonParserRULE_scope)
+	p.EnterRule(localctx, 36, CrayonParserRULE_scope)
 	var _la int
 
 	defer func() {
@@ -2730,25 +2943,37 @@ func (p *CrayonParser) Scope() (localctx IScopeContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(131)
-		p.Match(CrayonParserT__2)
+		p.SetState(144)
+		p.Match(CrayonParserT__11)
 	}
-	p.SetState(135)
+	p.SetState(149)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&33310026) != 0 {
-		{
-			p.SetState(132)
-			p.Exp()
+	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&200842570) != 0 {
+		p.SetState(147)
+		p.GetErrorHandler().Sync(p)
+		switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 11, p.GetParserRuleContext()) {
+		case 1:
+			{
+				p.SetState(145)
+				p.Exp()
+			}
+
+		case 2:
+			{
+				p.SetState(146)
+				p.End()
+			}
+
 		}
 
-		p.SetState(137)
+		p.SetState(151)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
-		p.SetState(138)
+		p.SetState(152)
 		p.Match(CrayonParserT__4)
 	}
 
@@ -2850,6 +3075,47 @@ func (s *ExpContext) Command(i int) ICommandContext {
 	return t.(ICommandContext)
 }
 
+func (s *ExpContext) AllEnd() []IEndContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IEndContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IEndContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IEndContext); ok {
+			tst[i] = t.(IEndContext)
+			i++
+		}
+	}
+
+	return tst
+}
+
+func (s *ExpContext) End(i int) IEndContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IEndContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IEndContext)
+}
+
 func (s *ExpContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
@@ -2885,7 +3151,7 @@ func (p *CrayonParser) Exp() (localctx IExpContext) {
 	_ = this
 
 	localctx = NewExpContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 34, CrayonParserRULE_exp)
+	p.EnterRule(localctx, 38, CrayonParserRULE_exp)
 	var _la int
 
 	defer func() {
@@ -2904,52 +3170,67 @@ func (p *CrayonParser) Exp() (localctx IExpContext) {
 		}
 	}()
 
-	p.SetState(151)
+	var _alt int
+
+	p.SetState(168)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 14, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 16, p.GetParserRuleContext()) {
 	case 1:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(140)
+			p.SetState(154)
 			p.Scope()
 		}
 
 	case 2:
 		p.EnterOuterAlt(localctx, 2)
-		{
-			p.SetState(141)
-			p.Command()
-		}
-		p.SetState(148)
+		p.SetState(164)
 		p.GetErrorHandler().Sync(p)
-		_la = p.GetTokenStream().LA(1)
+		_alt = 1
+		for ok := true; ok; ok = _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
+			switch _alt {
+			case 1:
+				p.SetState(157)
+				p.GetErrorHandler().Sync(p)
 
-		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&12304) != 0 {
-			{
-				p.SetState(142)
+				switch p.GetTokenStream().LA(1) {
+				case CrayonParserT__0, CrayonParserT__2, CrayonParserT__5, CrayonParserT__7, CrayonParserT__9, CrayonParserT__10, CrayonParserT__11, CrayonParserNUMBER, CrayonParserSTRING, CrayonParserNONE, CrayonParserINFINITY, CrayonParserYES, CrayonParserNO, CrayonParserPI, CrayonParserIDENTIFIER:
+					{
+						p.SetState(155)
+						p.Command()
+					}
+
+				case CrayonParserEND:
+					{
+						p.SetState(156)
+						p.End()
+					}
+
+				default:
+					panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+				}
+				p.SetState(160)
+				p.GetErrorHandler().Sync(p)
 				_la = p.GetTokenStream().LA(1)
 
-				if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&12304) != 0) {
-					p.GetErrorHandler().RecoverInline(p)
-				} else {
-					p.GetErrorHandler().ReportMatch(p)
-					p.Consume()
-				}
-			}
-			p.SetState(144)
-			p.GetErrorHandler().Sync(p)
+				for ok := true; ok; ok = _la == CrayonParserT__12 {
+					{
+						p.SetState(159)
+						p.Match(CrayonParserT__12)
+					}
 
-			if p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 12, p.GetParserRuleContext()) == 1 {
-				{
-					p.SetState(143)
-					p.Command()
+					p.SetState(162)
+					p.GetErrorHandler().Sync(p)
+					_la = p.GetTokenStream().LA(1)
 				}
 
+			default:
+				panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 			}
 
-			p.SetState(150)
+			p.SetState(166)
 			p.GetErrorHandler().Sync(p)
-			_la = p.GetTokenStream().LA(1)
+			_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 15, p.GetParserRuleContext())
 		}
 
 	}
@@ -2995,45 +3276,12 @@ func NewTagContext(parser antlr.Parser, parent antlr.ParserRuleContext, invoking
 
 func (s *TagContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *TagContext) MAIN() antlr.TerminalNode {
-	return s.GetToken(CrayonParserMAIN, 0)
-}
-
-func (s *TagContext) LOOP() antlr.TerminalNode {
-	return s.GetToken(CrayonParserLOOP, 0)
-}
-
-func (s *TagContext) AllExp() []IExpContext {
-	children := s.GetChildren()
-	len := 0
-	for _, ctx := range children {
-		if _, ok := ctx.(IExpContext); ok {
-			len++
-		}
-	}
-
-	tst := make([]IExpContext, len)
-	i := 0
-	for _, ctx := range children {
-		if t, ok := ctx.(IExpContext); ok {
-			tst[i] = t.(IExpContext)
-			i++
-		}
-	}
-
-	return tst
-}
-
-func (s *TagContext) Exp(i int) IExpContext {
+func (s *TagContext) Exp() IExpContext {
 	var t antlr.RuleContext
-	j := 0
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IExpContext); ok {
-			if j == i {
-				t = ctx.(antlr.RuleContext)
-				break
-			}
-			j++
+			t = ctx.(antlr.RuleContext)
+			break
 		}
 	}
 
@@ -3044,12 +3292,68 @@ func (s *TagContext) Exp(i int) IExpContext {
 	return t.(IExpContext)
 }
 
-func (s *TagContext) FRAME() antlr.TerminalNode {
-	return s.GetToken(CrayonParserFRAME, 0)
+func (s *TagContext) MainTag() IMainTagContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IMainTagContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IMainTagContext)
 }
 
-func (s *TagContext) NUMBER() antlr.TerminalNode {
-	return s.GetToken(CrayonParserNUMBER, 0)
+func (s *TagContext) FrameTag() IFrameTagContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IFrameTagContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IFrameTagContext)
+}
+
+func (s *TagContext) LoopTag() ILoopTagContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(ILoopTagContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ILoopTagContext)
+}
+
+func (s *TagContext) CustomTag() ICustomTagContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(ICustomTagContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ICustomTagContext)
 }
 
 func (s *TagContext) GetRuleContext() antlr.RuleContext {
@@ -3087,8 +3391,7 @@ func (p *CrayonParser) Tag() (localctx ITagContext) {
 	_ = this
 
 	localctx = NewTagContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 36, CrayonParserRULE_tag)
-	var _la int
+	p.EnterRule(localctx, 40, CrayonParserRULE_tag)
 
 	defer func() {
 		p.ExitRule()
@@ -3106,75 +3409,477 @@ func (p *CrayonParser) Tag() (localctx ITagContext) {
 		}
 	}()
 
-	var _alt int
-
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(153)
-		p.Match(CrayonParserT__5)
+		p.SetState(170)
+		p.Match(CrayonParserT__13)
 	}
-	p.SetState(163)
+	p.SetState(175)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case CrayonParserMAIN:
 		{
-			p.SetState(154)
-			p.Match(CrayonParserMAIN)
+			p.SetState(171)
+			p.MainTag()
 		}
 
 	case CrayonParserFRAME:
 		{
-			p.SetState(155)
-			p.Match(CrayonParserFRAME)
-		}
-		p.SetState(157)
-		p.GetErrorHandler().Sync(p)
-		_la = p.GetTokenStream().LA(1)
-
-		for ok := true; ok; ok = _la == CrayonParserT__10 {
-			{
-				p.SetState(156)
-				p.Match(CrayonParserT__10)
-			}
-
-			p.SetState(159)
-			p.GetErrorHandler().Sync(p)
-			_la = p.GetTokenStream().LA(1)
-		}
-		{
-			p.SetState(161)
-			p.Match(CrayonParserNUMBER)
+			p.SetState(172)
+			p.FrameTag()
 		}
 
 	case CrayonParserLOOP:
 		{
-			p.SetState(162)
-			p.Match(CrayonParserLOOP)
+			p.SetState(173)
+			p.LoopTag()
+		}
+
+	case CrayonParserT__10:
+		{
+			p.SetState(174)
+			p.CustomTag()
 		}
 
 	default:
 		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 	}
 	{
-		p.SetState(165)
+		p.SetState(177)
 		p.Match(CrayonParserT__6)
 	}
-	p.SetState(169)
-	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 17, p.GetParserRuleContext())
+	{
+		p.SetState(178)
+		p.Exp()
+	}
 
-	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
-		if _alt == 1 {
-			{
-				p.SetState(166)
-				p.Exp()
+	return localctx
+}
+
+// IMainTagContext is an interface to support dynamic dispatch.
+type IMainTagContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsMainTagContext differentiates from other interfaces.
+	IsMainTagContext()
+}
+
+type MainTagContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyMainTagContext() *MainTagContext {
+	var p = new(MainTagContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = CrayonParserRULE_mainTag
+	return p
+}
+
+func (*MainTagContext) IsMainTagContext() {}
+
+func NewMainTagContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *MainTagContext {
+	var p = new(MainTagContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CrayonParserRULE_mainTag
+
+	return p
+}
+
+func (s *MainTagContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *MainTagContext) MAIN() antlr.TerminalNode {
+	return s.GetToken(CrayonParserMAIN, 0)
+}
+
+func (s *MainTagContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *MainTagContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *MainTagContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CrayonListener); ok {
+		listenerT.EnterMainTag(s)
+	}
+}
+
+func (s *MainTagContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CrayonListener); ok {
+		listenerT.ExitMainTag(s)
+	}
+}
+
+func (s *MainTagContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case CrayonVisitor:
+		return t.VisitMainTag(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *CrayonParser) MainTag() (localctx IMainTagContext) {
+	this := p
+	_ = this
+
+	localctx = NewMainTagContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 42, CrayonParserRULE_mainTag)
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
 			}
-
 		}
-		p.SetState(171)
-		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 17, p.GetParserRuleContext())
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(180)
+		p.Match(CrayonParserMAIN)
+	}
+
+	return localctx
+}
+
+// IFrameTagContext is an interface to support dynamic dispatch.
+type IFrameTagContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsFrameTagContext differentiates from other interfaces.
+	IsFrameTagContext()
+}
+
+type FrameTagContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyFrameTagContext() *FrameTagContext {
+	var p = new(FrameTagContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = CrayonParserRULE_frameTag
+	return p
+}
+
+func (*FrameTagContext) IsFrameTagContext() {}
+
+func NewFrameTagContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *FrameTagContext {
+	var p = new(FrameTagContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CrayonParserRULE_frameTag
+
+	return p
+}
+
+func (s *FrameTagContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *FrameTagContext) FRAME() antlr.TerminalNode {
+	return s.GetToken(CrayonParserFRAME, 0)
+}
+
+func (s *FrameTagContext) NUMBER() antlr.TerminalNode {
+	return s.GetToken(CrayonParserNUMBER, 0)
+}
+
+func (s *FrameTagContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *FrameTagContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *FrameTagContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CrayonListener); ok {
+		listenerT.EnterFrameTag(s)
+	}
+}
+
+func (s *FrameTagContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CrayonListener); ok {
+		listenerT.ExitFrameTag(s)
+	}
+}
+
+func (s *FrameTagContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case CrayonVisitor:
+		return t.VisitFrameTag(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *CrayonParser) FrameTag() (localctx IFrameTagContext) {
+	this := p
+	_ = this
+
+	localctx = NewFrameTagContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 44, CrayonParserRULE_frameTag)
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(182)
+		p.Match(CrayonParserFRAME)
+	}
+	{
+		p.SetState(183)
+		p.Match(CrayonParserNUMBER)
+	}
+
+	return localctx
+}
+
+// ILoopTagContext is an interface to support dynamic dispatch.
+type ILoopTagContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsLoopTagContext differentiates from other interfaces.
+	IsLoopTagContext()
+}
+
+type LoopTagContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyLoopTagContext() *LoopTagContext {
+	var p = new(LoopTagContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = CrayonParserRULE_loopTag
+	return p
+}
+
+func (*LoopTagContext) IsLoopTagContext() {}
+
+func NewLoopTagContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *LoopTagContext {
+	var p = new(LoopTagContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CrayonParserRULE_loopTag
+
+	return p
+}
+
+func (s *LoopTagContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *LoopTagContext) LOOP() antlr.TerminalNode {
+	return s.GetToken(CrayonParserLOOP, 0)
+}
+
+func (s *LoopTagContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *LoopTagContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *LoopTagContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CrayonListener); ok {
+		listenerT.EnterLoopTag(s)
+	}
+}
+
+func (s *LoopTagContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CrayonListener); ok {
+		listenerT.ExitLoopTag(s)
+	}
+}
+
+func (s *LoopTagContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case CrayonVisitor:
+		return t.VisitLoopTag(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *CrayonParser) LoopTag() (localctx ILoopTagContext) {
+	this := p
+	_ = this
+
+	localctx = NewLoopTagContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 46, CrayonParserRULE_loopTag)
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(185)
+		p.Match(CrayonParserLOOP)
+	}
+
+	return localctx
+}
+
+// ICustomTagContext is an interface to support dynamic dispatch.
+type ICustomTagContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsCustomTagContext differentiates from other interfaces.
+	IsCustomTagContext()
+}
+
+type CustomTagContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyCustomTagContext() *CustomTagContext {
+	var p = new(CustomTagContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = CrayonParserRULE_customTag
+	return p
+}
+
+func (*CustomTagContext) IsCustomTagContext() {}
+
+func NewCustomTagContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *CustomTagContext {
+	var p = new(CustomTagContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CrayonParserRULE_customTag
+
+	return p
+}
+
+func (s *CustomTagContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *CustomTagContext) IDENTIFIER() antlr.TerminalNode {
+	return s.GetToken(CrayonParserIDENTIFIER, 0)
+}
+
+func (s *CustomTagContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *CustomTagContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *CustomTagContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CrayonListener); ok {
+		listenerT.EnterCustomTag(s)
+	}
+}
+
+func (s *CustomTagContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CrayonListener); ok {
+		listenerT.ExitCustomTag(s)
+	}
+}
+
+func (s *CustomTagContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case CrayonVisitor:
+		return t.VisitCustomTag(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *CrayonParser) CustomTag() (localctx ICustomTagContext) {
+	this := p
+	_ = this
+
+	localctx = NewCustomTagContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 48, CrayonParserRULE_customTag)
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(187)
+		p.Match(CrayonParserT__10)
+	}
+	{
+		p.SetState(188)
+		p.Match(CrayonParserIDENTIFIER)
 	}
 
 	return localctx
@@ -3298,7 +4003,7 @@ func (p *CrayonParser) Script() (localctx IScriptContext) {
 	_ = this
 
 	localctx = NewScriptContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 38, CrayonParserRULE_script)
+	p.EnterRule(localctx, 50, CrayonParserRULE_script)
 	var _la int
 
 	defer func() {
@@ -3318,22 +4023,22 @@ func (p *CrayonParser) Script() (localctx IScriptContext) {
 	}()
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(173)
+	p.SetState(191)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for ok := true; ok; ok = _la == CrayonParserT__5 {
+	for ok := true; ok; ok = _la == CrayonParserT__13 {
 		{
-			p.SetState(172)
+			p.SetState(190)
 			p.Tag()
 		}
 
-		p.SetState(175)
+		p.SetState(193)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
-		p.SetState(177)
+		p.SetState(195)
 		p.Match(CrayonParserEOF)
 	}
 

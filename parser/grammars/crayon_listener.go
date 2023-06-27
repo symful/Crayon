@@ -44,8 +44,14 @@ type CrayonListener interface {
 	// EnterValue is called when entering the value production.
 	EnterValue(c *ValueContext)
 
+	// EnterEnd is called when entering the end production.
+	EnterEnd(c *EndContext)
+
 	// EnterKeywordPath is called when entering the keywordPath production.
 	EnterKeywordPath(c *KeywordPathContext)
+
+	// EnterValueTag is called when entering the valueTag production.
+	EnterValueTag(c *ValueTagContext)
 
 	// EnterValuePath is called when entering the valuePath production.
 	EnterValuePath(c *ValuePathContext)
@@ -64,6 +70,18 @@ type CrayonListener interface {
 
 	// EnterTag is called when entering the tag production.
 	EnterTag(c *TagContext)
+
+	// EnterMainTag is called when entering the mainTag production.
+	EnterMainTag(c *MainTagContext)
+
+	// EnterFrameTag is called when entering the frameTag production.
+	EnterFrameTag(c *FrameTagContext)
+
+	// EnterLoopTag is called when entering the loopTag production.
+	EnterLoopTag(c *LoopTagContext)
+
+	// EnterCustomTag is called when entering the customTag production.
+	EnterCustomTag(c *CustomTagContext)
 
 	// EnterScript is called when entering the script production.
 	EnterScript(c *ScriptContext)
@@ -104,8 +122,14 @@ type CrayonListener interface {
 	// ExitValue is called when exiting the value production.
 	ExitValue(c *ValueContext)
 
+	// ExitEnd is called when exiting the end production.
+	ExitEnd(c *EndContext)
+
 	// ExitKeywordPath is called when exiting the keywordPath production.
 	ExitKeywordPath(c *KeywordPathContext)
+
+	// ExitValueTag is called when exiting the valueTag production.
+	ExitValueTag(c *ValueTagContext)
 
 	// ExitValuePath is called when exiting the valuePath production.
 	ExitValuePath(c *ValuePathContext)
@@ -124,6 +148,18 @@ type CrayonListener interface {
 
 	// ExitTag is called when exiting the tag production.
 	ExitTag(c *TagContext)
+
+	// ExitMainTag is called when exiting the mainTag production.
+	ExitMainTag(c *MainTagContext)
+
+	// ExitFrameTag is called when exiting the frameTag production.
+	ExitFrameTag(c *FrameTagContext)
+
+	// ExitLoopTag is called when exiting the loopTag production.
+	ExitLoopTag(c *LoopTagContext)
+
+	// ExitCustomTag is called when exiting the customTag production.
+	ExitCustomTag(c *CustomTagContext)
 
 	// ExitScript is called when exiting the script production.
 	ExitScript(c *ScriptContext)

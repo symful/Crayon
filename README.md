@@ -11,7 +11,7 @@ There are only tags, values, constant values, commands (statements), variables a
 This bash script will build the engine and run it.
 
 # What the Fuck is a Tag?
-It works like a function, but you can't directly call it, only system can, at least for now.
+It works like a function.
 
 ## Kinds of Tag
 ### 1. MAIN
@@ -35,6 +35,17 @@ It will execute after XX seconds.
 [LOOP]
 ```
 It will execute every time until you exit the program.
+
+### 4. Custom
+```
+[@AnyName]
+```
+Your own named tags! This type of tag can be called by your code.
+
+ProTip: If you want to end a tag, just use
+```
+~ <Value?>
+```
 
 # Kinds of Value
 ## 1. String
@@ -68,7 +79,7 @@ It will execute every time until you exit the program.
 
 ## 5. Object (Untested)
 ```
-{
+#{
     key1 = <Any>,
     key2 = <Any>
 }
@@ -78,7 +89,7 @@ It will execute every time until you exit the program.
 
 ## 6. Array (Untested)
 ```
-[<Any>, <Any>]
+#[<Any>, <Any>]
 ```
 <br />
 <br />
@@ -94,75 +105,82 @@ It will execute every time until you exit the program.
 # Commands
 ## 1. Exit the program
 ```
-K THX BYE
+K THX BYE;
 ```
 <br />
 <br />
 
 ## 2. Console
 ```
-write <Any> to console
+write <Any> to console;
 ```
 <br />
 <br />
 
 ## 3. Define
 ```
-define variable $[variable]
+define variable $[variable];
 ```
 <br />
 <br />
 
 ## 4. Assign
 ```
-assign value <Any> to $[variable]
+assign value <Any> to $[variable];
 ```
 <br />
 <br />
 
 ## 5. Delete 
 ```
-delete variable $[variable]
+delete variable $[variable];
 ```
 <br />
 <br />
 
-## 6. Math Operators
+## 6. Global 
 ```
-add <Number> by <Number>
-sub <Number> by <Number>
-divide <Number> by <Number>
-multiply <Number> by <Number>
+make variable $[variable] global;
 ```
 <br />
 <br />
 
-## 7. Logical Operators (All the results are `<Bool>`)
+## 7. Math Operators
 ```
-is <Any> equal with <Any>
-is <Any> not equal with <Any> 
+add <Number> by <Number>;
+sub <Number> by <Number>;
+divide <Number> by <Number>;
+multiply <Number> by <Number>;
+```
+<br />
+<br />
 
-not <Bool>
+## 8. Logical Operators (All the results are `<Bool>`)
+```
+is <Any> equal with <Any>;
+is <Any> not equal with <Any>;
 
-is <Number> less than <Number>
-is <Number> less than or equal with <Number>
+not <Bool>;
 
-is <Number> more than <Number>
-is <Number> more than or equal with <Number>
+is <Number> less than <Number>;
+is <Number> less than or equal with <Number>;
 
-<Bool> and <Bool>
-<Bool> or <Bool>
+is <Number> more than <Number>;
+is <Number> more than or equal with <Number>;
+
+<Bool> and <Bool>;
+<Bool> or <Bool>;
 ```
 <br />
 <br />
 
 Protip: You can use commands within commands like
 ```
-command1 @(command2)
+command1 @(command2);
 ```
 <br />
 
-## 8. If Else
+## 9. If Else
 ```
 if <Bool> {
     this is scope

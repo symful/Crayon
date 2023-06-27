@@ -189,6 +189,23 @@ var DefineVariableCommand = Command{
 	Routes: []Route{DefineVariableCommandRoute},
 }
 
+var GlobalVariableCommandRoute = Route{
+	Paths: []Path{NewKeywordPath("make"), NewKeywordPath("variable"), VariablePath, NewKeywordPath("global")},
+	Run: func(a []any, cv *CrayonVisitor) any {
+		name := a[0].(Variable).Name
+		err := cv.Scope.GlobalVariable(name)
+
+		if err != nil {
+			panic(err)
+		}
+
+		return name
+	},
+}
+var GlobalVariableCommand = Command{
+	Routes: []Route{GlobalVariableCommandRoute},
+}
+
 var AssignVariableCommandRoute = Route{
 	Paths: []Path{NewKeywordPath("assign"), NewKeywordPath("value"), AnyValuePath, NewKeywordPath("to"), NewKeywordPath("variable"), VariablePath},
 	Run: func(a []any, cv *CrayonVisitor) any {
@@ -245,4 +262,30 @@ var ByeCommandRoute = Route{
 }
 var ByeCommand = Command{
 	Routes: []Route{ByeCommandRoute},
+}
+
+var CallCustomTagCommandRoute = Route{
+	Paths: []Path{NewKeywordPath("call"), NewKeywordPath("tag"), ValueTagPath, NewKeywordPath("with"), NewKeywordPath("args"), ArrayValuePath},
+	Run: func(a []any, v *CrayonVisitor) any {
+		return a[0].(*CustomTag).Run(v, a[1].([]any))
+	},
+}
+var CallCustomTagCommand = Command{
+	Routes: []Route{CallCustomTagCommandRoute},
+}
+
+var GetPropArrayCommandRoute = Route{
+	Paths: []Path{NewKeywordPath("get"), NewKeywordPath("property"), NumberValuePath, NewKeywordPath("from"), ArrayValuePath},
+	Run: func(a []any, v *CrayonVisitor) any {
+		return a[1].([]any)[int64(a[0].(float64))]
+	},
+}
+var GetPropObjectCommandRoute = Route{
+	Paths: []Path{NewKeywordPath("get"), NewKeywordPath("property"), StringValuePath, NewKeywordPath("from"), ObjectValuePath},
+	Run: func(a []any, v *CrayonVisitor) any {
+		return a[1].(map[string]any)[a[0].(string)]
+	},
+}
+var GetPropCommand = Command{
+	Routes: []Route{GetPropArrayCommandRoute, GetPropObjectCommandRoute},
 }

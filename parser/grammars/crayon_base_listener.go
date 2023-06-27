@@ -93,11 +93,23 @@ func (s *BaseCrayonListener) EnterValue(ctx *ValueContext) {}
 // ExitValue is called when production value is exited.
 func (s *BaseCrayonListener) ExitValue(ctx *ValueContext) {}
 
+// EnterEnd is called when production end is entered.
+func (s *BaseCrayonListener) EnterEnd(ctx *EndContext) {}
+
+// ExitEnd is called when production end is exited.
+func (s *BaseCrayonListener) ExitEnd(ctx *EndContext) {}
+
 // EnterKeywordPath is called when production keywordPath is entered.
 func (s *BaseCrayonListener) EnterKeywordPath(ctx *KeywordPathContext) {}
 
 // ExitKeywordPath is called when production keywordPath is exited.
 func (s *BaseCrayonListener) ExitKeywordPath(ctx *KeywordPathContext) {}
+
+// EnterValueTag is called when production valueTag is entered.
+func (s *BaseCrayonListener) EnterValueTag(ctx *ValueTagContext) {}
+
+// ExitValueTag is called when production valueTag is exited.
+func (s *BaseCrayonListener) ExitValueTag(ctx *ValueTagContext) {}
 
 // EnterValuePath is called when production valuePath is entered.
 func (s *BaseCrayonListener) EnterValuePath(ctx *ValuePathContext) {}
@@ -134,6 +146,30 @@ func (s *BaseCrayonListener) EnterTag(ctx *TagContext) {}
 
 // ExitTag is called when production tag is exited.
 func (s *BaseCrayonListener) ExitTag(ctx *TagContext) {}
+
+// EnterMainTag is called when production mainTag is entered.
+func (s *BaseCrayonListener) EnterMainTag(ctx *MainTagContext) {}
+
+// ExitMainTag is called when production mainTag is exited.
+func (s *BaseCrayonListener) ExitMainTag(ctx *MainTagContext) {}
+
+// EnterFrameTag is called when production frameTag is entered.
+func (s *BaseCrayonListener) EnterFrameTag(ctx *FrameTagContext) {}
+
+// ExitFrameTag is called when production frameTag is exited.
+func (s *BaseCrayonListener) ExitFrameTag(ctx *FrameTagContext) {}
+
+// EnterLoopTag is called when production loopTag is entered.
+func (s *BaseCrayonListener) EnterLoopTag(ctx *LoopTagContext) {}
+
+// ExitLoopTag is called when production loopTag is exited.
+func (s *BaseCrayonListener) ExitLoopTag(ctx *LoopTagContext) {}
+
+// EnterCustomTag is called when production customTag is entered.
+func (s *BaseCrayonListener) EnterCustomTag(ctx *CustomTagContext) {}
+
+// ExitCustomTag is called when production customTag is exited.
+func (s *BaseCrayonListener) ExitCustomTag(ctx *CustomTagContext) {}
 
 // EnterScript is called when production script is entered.
 func (s *BaseCrayonListener) EnterScript(ctx *ScriptContext) {}

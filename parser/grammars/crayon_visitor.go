@@ -44,8 +44,14 @@ type CrayonVisitor interface {
 	// Visit a parse tree produced by CrayonParser#value.
 	VisitValue(ctx *ValueContext) interface{}
 
+	// Visit a parse tree produced by CrayonParser#end.
+	VisitEnd(ctx *EndContext) interface{}
+
 	// Visit a parse tree produced by CrayonParser#keywordPath.
 	VisitKeywordPath(ctx *KeywordPathContext) interface{}
+
+	// Visit a parse tree produced by CrayonParser#valueTag.
+	VisitValueTag(ctx *ValueTagContext) interface{}
 
 	// Visit a parse tree produced by CrayonParser#valuePath.
 	VisitValuePath(ctx *ValuePathContext) interface{}
@@ -64,6 +70,18 @@ type CrayonVisitor interface {
 
 	// Visit a parse tree produced by CrayonParser#tag.
 	VisitTag(ctx *TagContext) interface{}
+
+	// Visit a parse tree produced by CrayonParser#mainTag.
+	VisitMainTag(ctx *MainTagContext) interface{}
+
+	// Visit a parse tree produced by CrayonParser#frameTag.
+	VisitFrameTag(ctx *FrameTagContext) interface{}
+
+	// Visit a parse tree produced by CrayonParser#loopTag.
+	VisitLoopTag(ctx *LoopTagContext) interface{}
+
+	// Visit a parse tree produced by CrayonParser#customTag.
+	VisitCustomTag(ctx *CustomTagContext) interface{}
 
 	// Visit a parse tree produced by CrayonParser#script.
 	VisitScript(ctx *ScriptContext) interface{}

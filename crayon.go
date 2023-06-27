@@ -18,34 +18,40 @@ func main() {
 	ch := make(chan interface{})
 	eng := engine.NewEngine(ch)
 
-	eng.AddCommand(engine.WriteCommand)
-	eng.AddCommand(engine.ByeCommand)
-	eng.AddCommand(engine.DefineVariableCommand)
-	eng.AddCommand(engine.AssignVariableCommand)
-	eng.AddCommand(engine.DeleteVariableCommand)
-	eng.AddCommand(engine.IfCommand)
-	eng.AddCommand(engine.IsEqualCommand)
-	eng.AddCommand(engine.IsNotEqualCommand)
-	eng.AddCommand(engine.NotCommand)
-	eng.AddCommand(engine.AndCommand)
-	eng.AddCommand(engine.OrCommand)
-	eng.AddCommand(engine.IsLessThanCommand)
-	eng.AddCommand(engine.IsLessThanOrEqualCommand)
-	eng.AddCommand(engine.IsMoreThanCommand)
-	eng.AddCommand(engine.IsMoreThanOrEqualCommand)
-	eng.AddCommand(engine.SubCommand)
-	eng.AddCommand(engine.SumCommand)
-	eng.AddCommand(engine.DivideCommand)
-	eng.AddCommand(engine.MultiplyCommand)
+	eng.AddCommands(
+		engine.WriteCommand,
+		engine.ByeCommand,
+		engine.DefineVariableCommand,
+		engine.AssignVariableCommand,
+		engine.GlobalVariableCommand,
+		engine.DeleteVariableCommand,
+		engine.IfCommand,
+		engine.IsEqualCommand,
+		engine.IsNotEqualCommand,
+		engine.NotCommand,
+		engine.AndCommand,
+		engine.OrCommand,
+		engine.IsLessThanCommand,
+		engine.IsLessThanOrEqualCommand,
+		engine.IsMoreThanCommand,
+		engine.IsMoreThanOrEqualCommand,
+		engine.SubCommand,
+		engine.SumCommand,
+		engine.DivideCommand,
+		engine.MultiplyCommand,
+		engine.CallCustomTagCommand,
+		engine.GetPropCommand,
+	)
 
 	script := p.Script().(*parser.ScriptContext)
-	v := engine.NewCrayonVisitor(eng, engine.NewScope(nil))
+	parentScope := engine.NewScope(nil)
+	v := engine.NewCrayonVisitor(eng, engine.NewScope(parentScope), make(map[string]*engine.CustomTag))
 	tags := v.VisitScript(script)
+
+	v.RunAllAvailableTags(tags, make([][]any, len(tags)))
 
 	defer func() {
 		for range ch {
-
 		}
 	}()
-	v.RunAllTags(tags)
 }

@@ -56,7 +56,15 @@ func (v *BaseCrayonVisitor) VisitValue(ctx *ValueContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseCrayonVisitor) VisitEnd(ctx *EndContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseCrayonVisitor) VisitKeywordPath(ctx *KeywordPathContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCrayonVisitor) VisitValueTag(ctx *ValueTagContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -81,6 +89,22 @@ func (v *BaseCrayonVisitor) VisitExp(ctx *ExpContext) interface{} {
 }
 
 func (v *BaseCrayonVisitor) VisitTag(ctx *TagContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCrayonVisitor) VisitMainTag(ctx *MainTagContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCrayonVisitor) VisitFrameTag(ctx *FrameTagContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCrayonVisitor) VisitLoopTag(ctx *LoopTagContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseCrayonVisitor) VisitCustomTag(ctx *CustomTagContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

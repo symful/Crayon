@@ -1,10 +1,10 @@
 [MAIN]
 if #yes do {
-    write "A" to console
+    write "A" to console;
 }
 
 if #no do {
-    write "C" to console
+    write "C" to console;
 } else do {
-    write "B" to console
+    write "B" to console;
 }

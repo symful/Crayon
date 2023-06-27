@@ -1,4 +1,5 @@
 #!/usr/bin/bash
 
-go build -ldflags="-w -s" crayon.go
-time ./crayon $1
+DIR=$(dirname -- "$0";)
+go build -ldflags="-w -s" $DIR/crayon.go
+time $DIR/crayon $1
