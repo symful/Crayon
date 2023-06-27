@@ -192,5 +192,11 @@ if <Bool> {
     this is scope
 }
 ```
+
+## 10. Get & Call Custom Tag
+```
+call tag @[CustomTagName] with args <Array>;
+```
+To get the arguments in the custom tag, the custom tag just need to get the variable `$args`.
 <br />
 <br />

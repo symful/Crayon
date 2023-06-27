@@ -1,0 +1,26 @@
+[@SUM]
+define variable $res;
+make variable $res global;
+assign value @(
+    add @(
+        get property 0 from $args
+    ) by @(
+        get property 1 from $args
+    )
+) to variable $res;
+
+[@SUB]
+~ @(
+    sub @(
+        get property 0 from $args
+    ) by @(
+        get property 1 from $args
+    )
+);
+
+[MAIN]
+call tag @SUM with args #[0, 10];
+write $res to console;
+write @(
+    call tag @SUB with args #[0, 10]
+) to console;
