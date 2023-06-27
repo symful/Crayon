@@ -89,7 +89,7 @@ ProTip: If you want to end a tag, just use
 <br />
 <br />
 
-## 6. Array (Untested)
+## 6. Array
 ```
 #[<Any>, <Any>]
 ```
@@ -218,6 +218,13 @@ get property <String> from <Object>;
 ```
 set <Any> as property <Number> from <Array>;
 set <Any> as property <String> from <Object>;
+```
+<br />
+<br />
+
+## 13. Get Type Of (Untested)
+```
+get type of <Any>;
 ```
 <br />
 <br />

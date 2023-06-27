@@ -305,3 +305,28 @@ var SetPropObjectCommandRoute = Route{
 var SetPropCommand = Command{
 	Routes: []Route{SetPropArrayCommandRoute, SetPropObjectCommandRoute},
 }
+
+var GetTypeofCommandRoute = Route{
+	Paths: []Path{NewKeywordPath("get"), NewKeywordPath("type"), StringValuePath, NewKeywordPath("of"), AnyValuePath},
+	Run: func(a []any, v *CrayonVisitor) any {
+		switch a[0].(type) {
+		case []any:
+			return "array"
+		case CustomTag:
+			return "tag"
+		case bool:
+			return "bool"
+		case string:
+			return "string"
+		case float64:
+			return "number"
+		case map[string]any:
+			return "object"
+		}
+
+		return "unknown"
+	},
+}
+var GetTypeofCommand = Command{
+	Routes: []Route{GetTypeofCommandRoute},
+}

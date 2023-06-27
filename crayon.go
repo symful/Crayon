@@ -42,6 +42,7 @@ func main() {
 		engine.CallCustomTagCommand,
 		engine.GetPropCommand,
 		engine.SetPropCommand,
+		engine.GetTypeofCommand,
 	)
 
 	script := p.Script().(*parser.ScriptContext)
